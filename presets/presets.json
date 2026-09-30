@@ -1,0 +1,452 @@
+{
+  "author": "Badr Abardazzou",
+  "source": "https://github.com/babarda/report-themes (OVP design languages DL-01 to DL-16)",
+  "presets": [
+    {
+      "id": "agraw",
+      "code": "DL-01",
+      "name": "AGRAW",
+      "motto": "Lead with wisdom.",
+      "madeFor": "board packs, steering committees",
+      "brand": {
+        "name": "AGRAW",
+        "colors": [
+          "#008080",
+          "#C9C6BF",
+          "#D8D5CE",
+          "#2E6E4E",
+          "#8B1E1E"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FAFAF7",
+        "ink": "#1A1A1A",
+        "body": "#3D3D3D",
+        "hairline": "#D8D5CE",
+        "gridline": "#EFEDE8",
+        "good": "#2E6E4E",
+        "bad": "#8B1E1E",
+        "neutral": "#C9C6BF",
+        "fontHeading": "EB Garamond",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "kata",
+      "code": "DL-02",
+      "name": "KATA",
+      "motto": "Perfect through repetition.",
+      "madeFor": "weekly status decks, progress dashboards",
+      "brand": {
+        "name": "KATA",
+        "colors": [
+          "#008080",
+          "#005F5F",
+          "#B7DCDC",
+          "#AAAAAA",
+          "#339966",
+          "#D63A2F",
+          "#E08A00"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#F7FAFA",
+        "ink": "#222222",
+        "body": "#555555",
+        "hairline": "#E2E8E8",
+        "gridline": "#EAEAEA",
+        "good": "#339966",
+        "bad": "#D63A2F",
+        "neutral": "#E08A00",
+        "fontHeading": "Rethink Sans",
+        "fontBody": "Poppins"
+      }
+    },
+    {
+      "id": "logos",
+      "code": "DL-03",
+      "name": "LOGOS",
+      "motto": "Evidence before opinion.",
+      "madeFor": "deep-dive analysis, monthly chartbooks",
+      "brand": {
+        "name": "LOGOS",
+        "colors": [
+          "#9E2B25",
+          "#B8B2A7",
+          "#E8E0D4",
+          "#2E6E4E"
+        ],
+        "background": "#FDF4EA",
+        "panel": "#FDF4EA",
+        "ink": "#262A33",
+        "body": "#4A4E57",
+        "hairline": "#E8E0D4",
+        "gridline": "#E8E0D4",
+        "good": "#2E6E4E",
+        "bad": "#9E2B25",
+        "neutral": "#B8B2A7",
+        "fontHeading": "Oswald",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "shilpa",
+      "code": "DL-04",
+      "name": "SHILPA",
+      "motto": "Craft every detail.",
+      "madeFor": "technical packs, procedures",
+      "brand": {
+        "name": "SHILPA",
+        "colors": [
+          "#1B6E8F",
+          "#C6D5E0",
+          "#2E6E4E",
+          "#9E2B25",
+          "#B54708"
+        ],
+        "background": "#FBFDFF",
+        "panel": "#EDF3F7",
+        "ink": "#143D59",
+        "body": "#33424E",
+        "hairline": "#C6D5E0",
+        "gridline": "#E7EEF4",
+        "good": "#2E6E4E",
+        "bad": "#9E2B25",
+        "neutral": "#B54708",
+        "fontHeading": "Segoe UI",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "obeya",
+      "code": "DL-05",
+      "name": "OBEYA",
+      "motto": "See together. Decide together.",
+      "madeFor": "stand-up boards, site wall prints",
+      "brand": {
+        "name": "OBEYA",
+        "colors": [
+          "#C2410C",
+          "#64748B",
+          "#1F7A4D",
+          "#B91C1C"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FFFFFF",
+        "ink": "#0F172A",
+        "body": "#334155",
+        "hairline": "#64748B",
+        "gridline": "#CBD5E1",
+        "good": "#1F7A4D",
+        "bad": "#B91C1C",
+        "neutral": "#64748B",
+        "fontHeading": "Segoe UI",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "lex",
+      "code": "DL-06",
+      "name": "LEX",
+      "motto": "Everything must be traceable.",
+      "madeFor": "claims, mediation, correspondence",
+      "brand": {
+        "name": "LEX",
+        "colors": [
+          "#7A1F1F",
+          "#B9B9B9",
+          "#333333"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FFFFFF",
+        "ink": "#1A1A1A",
+        "body": "#333333",
+        "hairline": "#B9B9B9",
+        "gridline": "#CCCCCC",
+        "good": "#333333",
+        "bad": "#7A1F1F",
+        "neutral": "#B9B9B9",
+        "fontHeading": "Georgia",
+        "fontBody": "Georgia"
+      }
+    },
+    {
+      "id": "saga",
+      "code": "DL-07",
+      "name": "SAGA",
+      "motto": "Every report becomes history.",
+      "madeFor": "weekly digests, bulletins",
+      "brand": {
+        "name": "SAGA",
+        "colors": [
+          "#C0182B",
+          "#B0B0B0",
+          "#111111",
+          "#2E2E2E"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FFFFFF",
+        "ink": "#111111",
+        "body": "#2E2E2E",
+        "hairline": "#111111",
+        "gridline": "#E4E4E4",
+        "good": "#2E2E2E",
+        "bad": "#C0182B",
+        "neutral": "#B0B0B0",
+        "fontHeading": "Georgia",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "sentinel",
+      "code": "DL-08",
+      "name": "SENTINEL",
+      "motto": "Watch without distraction.",
+      "madeFor": "live dashboards, control-room screens",
+      "brand": {
+        "name": "SENTINEL",
+        "colors": [
+          "#F0B429",
+          "#5C6B78",
+          "#9FB0BE",
+          "#3FB68B",
+          "#E5534B",
+          "#58A6FF"
+        ],
+        "background": "#101418",
+        "panel": "#1A2026",
+        "ink": "#E6EDF3",
+        "body": "#9FB0BE",
+        "hairline": "#2A323A",
+        "gridline": "#2A323A",
+        "good": "#3FB68B",
+        "bad": "#E5534B",
+        "neutral": "#5C6B78",
+        "fontHeading": "Segoe UI",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "atlas",
+      "code": "DL-09",
+      "name": "ATLAS",
+      "motto": "Always know where you are.",
+      "madeFor": "route progress, site status maps",
+      "brand": {
+        "name": "ATLAS",
+        "colors": [
+          "#0F766E",
+          "#B9AE9C",
+          "#CDC3AE",
+          "#2E6E4E",
+          "#C2410C",
+          "#D7E4E8"
+        ],
+        "background": "#F4EFE6",
+        "panel": "#EAE3D5",
+        "ink": "#2B3A42",
+        "body": "#4A5860",
+        "hairline": "#CDC3AE",
+        "gridline": "#E3DCCB",
+        "good": "#2E6E4E",
+        "bad": "#C2410C",
+        "neutral": "#B9AE9C",
+        "fontHeading": "Segoe UI",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "basira",
+      "code": "DL-10",
+      "name": "BASIRA",
+      "motto": "Look deeper than sight.",
+      "madeFor": "photo progress reports, drone updates",
+      "brand": {
+        "name": "BASIRA",
+        "colors": [
+          "#F0B429",
+          "#8A9096",
+          "#3A3F44",
+          "#3FB68B",
+          "#E5534B"
+        ],
+        "background": "#0B0B0B",
+        "panel": "#1C1F22",
+        "ink": "#FFFFFF",
+        "body": "#D9D9D9",
+        "hairline": "#3A3F44",
+        "gridline": "#3A3F44",
+        "good": "#3FB68B",
+        "bad": "#E5534B",
+        "neutral": "#8A9096",
+        "fontHeading": "Segoe UI",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "sutra",
+      "code": "DL-11",
+      "name": "SUTRA",
+      "motto": "Complexity distilled.",
+      "madeFor": "briefing notes, position papers",
+      "brand": {
+        "name": "SUTRA",
+        "colors": [
+          "#1F3864",
+          "#A9BBD9",
+          "#8EAADB",
+          "#2E6E4E",
+          "#9E2B25"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FFFFFF",
+        "ink": "#1F3864",
+        "body": "#262626",
+        "hairline": "#8EAADB",
+        "gridline": "#C9D6EE",
+        "good": "#2E6E4E",
+        "bad": "#9E2B25",
+        "neutral": "#A9BBD9",
+        "fontHeading": "Cambria",
+        "fontBody": "Cambria"
+      }
+    },
+    {
+      "id": "noroshi",
+      "code": "DL-12",
+      "name": "NOROSHI",
+      "motto": "Signal only what matters.",
+      "madeFor": "escalations, flash reports",
+      "brand": {
+        "name": "NOROSHI",
+        "colors": [
+          "#D63A2F",
+          "#94A3B8",
+          "#E2E8F0",
+          "#1F7A4D",
+          "#B45309"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FFFFFF",
+        "ink": "#0F172A",
+        "body": "#475569",
+        "hairline": "#E2E8F0",
+        "gridline": "#E2E8F0",
+        "good": "#1F7A4D",
+        "bad": "#D63A2F",
+        "neutral": "#B45309",
+        "fontHeading": "Segoe UI",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "mizan",
+      "code": "DL-13",
+      "name": "MIZAN",
+      "motto": "Balance creates clarity.",
+      "madeFor": "cultural projects, personal-brand material",
+      "brand": {
+        "name": "MIZAN",
+        "colors": [
+          "#C4572E",
+          "#C9BBA4",
+          "#DCCFB6",
+          "#3D5A46",
+          "#7A3B1E",
+          "#31486E"
+        ],
+        "background": "#F7EFE3",
+        "panel": "#F1E5D3",
+        "ink": "#31261D",
+        "body": "#4E4237",
+        "hairline": "#DCCFB6",
+        "gridline": "#E5D9C2",
+        "good": "#3D5A46",
+        "bad": "#7A3B1E",
+        "neutral": "#C9BBA4",
+        "fontHeading": "EB Garamond",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "evidentia",
+      "code": "DL-14",
+      "name": "EVIDENTIA",
+      "motto": "Proof over persuasion.",
+      "madeFor": "evidence-led strategy decks, diagnostic readouts",
+      "brand": {
+        "name": "EVIDENTIA",
+        "colors": [
+          "#2251FF",
+          "#A9B4C0",
+          "#6E7E8E",
+          "#2E6E4E",
+          "#9E2B25"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FFFFFF",
+        "ink": "#0B1F35",
+        "body": "#3C4A5A",
+        "hairline": "#C7D0D9",
+        "gridline": "#E3E8ED",
+        "good": "#2E6E4E",
+        "bad": "#9E2B25",
+        "neutral": "#A9B4C0",
+        "fontHeading": "Georgia",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "abrid",
+      "code": "DL-15",
+      "name": "ABRID",
+      "motto": "Everything is connected.",
+      "madeFor": "framework decks, portfolio reviews",
+      "brand": {
+        "name": "ABRID",
+        "colors": [
+          "#197A56",
+          "#A7C4B5",
+          "#C9D2CC",
+          "#9E2B25"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FFFFFF",
+        "ink": "#0E3A2C",
+        "body": "#3E4C46",
+        "hairline": "#C9D2CC",
+        "gridline": "#E5E7E2",
+        "good": "#197A56",
+        "bad": "#9E2B25",
+        "neutral": "#A7C4B5",
+        "fontHeading": "Segoe UI",
+        "fontBody": "Segoe UI"
+      }
+    },
+    {
+      "id": "telos",
+      "code": "DL-16",
+      "name": "TELOS",
+      "motto": "Every page serves a purpose.",
+      "madeFor": "results decks, due-diligence readouts",
+      "brand": {
+        "name": "TELOS",
+        "colors": [
+          "#C4001A",
+          "#B5B1AB",
+          "#8C8880",
+          "#2E6E4E"
+        ],
+        "background": "#FFFFFF",
+        "panel": "#FFFFFF",
+        "ink": "#1A1A1A",
+        "body": "#444444",
+        "hairline": "#D9D6D2",
+        "gridline": "#E8E6E2",
+        "good": "#2E6E4E",
+        "bad": "#C4001A",
+        "neutral": "#B5B1AB",
+        "fontHeading": "Segoe UI",
+        "fontBody": "Segoe UI"
+      }
+    }
+  ]
+}

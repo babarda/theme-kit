@@ -1,0 +1,13 @@
+{
+  "name": "theme-kit",
+  "version": "1.0.0",
+  "description": "One brand in, matching theme files out for Power BI, PowerPoint, Excel, Word, matplotlib, plotly, Vega-Lite and CSS, plus a theme audit (WCAG contrast, colour-blind safety).",
+  "type": "module",
+  "main": "src/themekit.js",
+  "author": "Badr Abardazzou (https://babarda.com)",
+  "license": "MIT",
+  "homepage": "https://babarda.com/tools/theme-builder/",
+  "repository": "github:babarda/theme-kit",
+  "keywords": ["power-bi", "power-bi-theme", "powerpoint", "thmx", "office-theme", "excel", "matplotlib", "plotly", "vega-lite", "design-tokens", "wcag", "color-blind", "accessibility"],
+  "scripts": { "example": "node examples/make-pack.mjs" }
+}

@@ -1,0 +1,996 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import presetData from "../../../public/tools/themekit/presets.json";
+const presets = presetData.presets;
+const OFFICE_FONTS = ["Segoe UI", "Segoe UI Semibold", "Segoe UI Light", "Aptos", "Aptos Display", "Calibri", "Calibri Light", "Arial", "Arial Narrow", "Georgia", "Cambria", "Verdana", "Tahoma", "Trebuchet MS", "Century Gothic", "Franklin Gothic Book", "Franklin Gothic Medium", "Garamond", "Gill Sans MT", "Candara", "Corbel", "Constantia", "Palatino Linotype", "Book Antiqua", "Times New Roman", "Consolas", "Source Sans Pro", "Open Sans", "Roboto", "Lato", "Poppins", "Montserrat", "Inter", "EB Garamond", "Oswald", "Rethink Sans"];
+const ff = (f: string) => `'${f}', 'Segoe UI', system-ui, sans-serif`;
+---
+<Layout
+  title="Theme Builder: Power BI, Office, Python and CSS themes from one brand · Badr Abardazzou"
+  description="Free theme builder. Pick one of 16 report looks, paste your brand hex codes or drop a theme file, check contrast and colour-blind safety on a live report page and slide, then download matching themes for Power BI (.json), PowerPoint, Excel and Word (.thmx), matplotlib, plotly, Vega-Lite and CSS. Runs in your browser, nothing uploaded."
+  active="tools"
+>
+  <div class="pa tool bcg tb">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Figtree:wght@400;500;600;700&family=EB+Garamond:wght@400;600&family=Rethink+Sans:wght@400;600&family=Poppins:wght@400;600&family=Oswald:wght@400;600&display=swap" rel="stylesheet" />
+    <script type="application/json" is:inline id="tb-presets" set:html={JSON.stringify(presets)}></script>
+    <datalist id="tb-fonts">{OFFICE_FONTS.map((f) => <option value={f} />)}</datalist>
+
+    <div class="head">
+      <p class="eyebrow"><a href="/tools/">Tools</a></p>
+      <h1>Theme Builder</h1>
+      <p class="dek">Enter your brand colours once and download matching themes for Power BI, PowerPoint, Excel, Word, matplotlib, plotly, Vega-Lite and CSS. A live report page and slide show the result, and the checks tell you which colours clash before your readers do.</p>
+    </div>
+
+    <ol class="steps">
+      <li><span class="two-n">1</span><div><b>Pick or enter colours</b><p>Start from one of 16 report looks, paste the hex codes from your brand guide, or drop a theme file you already use.</p></div></li>
+      <li><span class="two-n">2</span><div><b>Check</b><p>The preview redraws as you type. The checks flag text that is hard to read and series that colour-blind readers cannot tell apart.</p></div></li>
+      <li><span class="two-n">3</span><div><b>Download</b><p>One zip with every file, or one file at a time, each with the exact clicks to apply it.</p></div></li>
+    </ol>
+
+    <!-- ============================================================ 1. START -->
+    <h2 class="sec" id="start"><span class="secn">1</span>Start from a look, your hex codes or a file</h2>
+    <p class="secnote2">Each card shows the look on its own background: title in its ink colour, data colours in series order.</p>
+    <div class="presets" id="presets">
+      {presets.map((p) => (
+        <button type="button" class="preset" data-id={p.id} style={`background:${p.brand.background};border-color:${p.brand.hairline}`} aria-label={`Load the ${p.name} look, made for ${p.madeFor}`}>
+          <span class="pn" style={`color:${p.brand.ink};font-family:${ff(p.brand.fontHeading)}`}>{p.name}</span>
+          <span class="pm" style={`color:${p.brand.body}`}>{p.madeFor}</span>
+          <span class="pstrip">{p.brand.colors.map((c) => <i style={`background:${c}`}></i>)}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="inputs">
+      <div class="card">
+        <label class="ck" for="tb-paste">Paste your brand hex codes</label>
+        <textarea id="tb-paste" rows="4" spellcheck="false" placeholder="Paste anything: #1F4E79, F39C12, rgb(39,174,96), a line from a brand guide or a CSS file. Every colour code in the text is picked up."></textarea>
+        <div class="row">
+          <span class="found" id="tb-found">No colour found yet.</span>
+          <button type="button" class="btn2" id="tb-use-paste" disabled>Use these colours</button>
+        </div>
+        <p class="hint">White and near-black greys in the list become the background and the text colour. The rest become data colours, in the order you pasted them.</p>
+      </div>
+      <div class="card drop" id="tb-drop" tabindex="0" role="button" aria-label="Load a theme or brand file">
+        <span class="ck">Load a file</span>
+        <p class="dl"><b>Drop a file here</b>, or <button type="button" id="tb-choose">choose one</button></p>
+        <p class="hint">brand.json from this page, a Power BI theme .json, an Office .thmx, or any .pptx, .potx, .xlsx or .docx: the tool reads the theme inside it.</p>
+        <input type="file" id="tb-file" hidden accept=".json,.thmx,.pptx,.potx,.ppsx,.xlsx,.xltx,.docx,.dotx" />
+      </div>
+    </div>
+    <p class="status" id="tb-status" role="status" aria-live="polite"></p>
+
+    <!-- ============================================================ 2. EDIT + PREVIEW -->
+    <h2 class="sec" id="edit"><span class="secn">2</span>Adjust and check</h2>
+    <div class="work">
+      <div class="editor">
+        <div class="field">
+          <label class="ck" for="tb-name">Theme name</label>
+          <input type="text" id="tb-name" maxlength="60" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <div class="fhead"><span class="ck">Data colours</span><span class="fnote" id="tb-count"></span></div>
+          <p class="hint">Series 1 takes colour 1 in every chart, in every tool. Office keeps the first 6.</p>
+          <ol class="colors" id="tb-colors"></ol>
+          <button type="button" class="btn2 add" id="tb-add">Add a colour</button>
+        </div>
+
+        <div class="field">
+          <span class="ck">Neutrals</span>
+          <div class="roles" id="tb-roles"></div>
+          <div class="btnrow">
+            <button type="button" class="btn2" id="tb-gen">Generate neutrals from my first colour</button>
+            <button type="button" class="btn2" id="tb-dark">Dark mode version</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="ck">Good, bad, neutral</span>
+          <p class="hint">Used for KPI arrows, variance and conditional formatting.</p>
+          <div class="roles" id="tb-sent"></div>
+        </div>
+
+        <div class="field">
+          <span class="ck">Fonts</span>
+          <div class="fonts">
+            <label>Headings<input type="text" id="tb-fh" list="tb-fonts" autocomplete="off" /></label>
+            <label>Body text<input type="text" id="tb-fb" list="tb-fonts" autocomplete="off" /></label>
+          </div>
+          <p class="hint">Pick a font installed on every machine that opens the file. Segoe UI, Aptos, Calibri, Arial and Georgia are safe on Windows and Office.</p>
+        </div>
+
+        <div class="btnrow">
+          <button type="button" class="btn2" id="tb-share">Copy share link</button>
+          <button type="button" class="btn2 quiet" id="tb-reset">Start over</button>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="bar">
+          <div class="seg" role="tablist" aria-label="Preview">
+            <button type="button" role="tab" data-view="pbi" class="on" aria-selected="true">Power BI page</button>
+            <button type="button" role="tab" data-view="slide" aria-selected="false">Slide</button>
+          </div>
+          <div class="seg small" aria-label="Colour vision">
+            <span class="segk">See it as</span>
+            <select id="tb-vision" aria-label="Simulate colour vision">
+              <option value="normal">normal vision</option>
+              <option value="deutan">deuteranopia (green-blind)</option>
+              <option value="protan">protanopia (red-blind)</option>
+              <option value="tritan">tritanopia (blue-blind)</option>
+              <option value="achroma">greyscale print</option>
+            </select>
+          </div>
+        </div>
+        <div class="canvas" id="tb-pbi"></div>
+        <div class="canvas" id="tb-slide" hidden></div>
+        <p class="capt" id="tb-capt">Mock data. Every colour, font and line comes from your theme.</p>
+        <div class="checks" id="checks">
+          <h3 class="sub">What the checks found</h3>
+          <ul class="verdicts" id="tb-verdicts"></ul>
+          <div class="cgrid">
+            <div class="cbox">
+              <h4>Text contrast <span class="secnote">WCAG 2: 4.5:1 for body text, 3:1 for large text</span></h4>
+              <div id="tb-contrast"></div>
+            </div>
+            <div class="cbox">
+              <h4>Data colours on the background <span class="secnote">3:1 or more keeps lines and small marks visible</span></h4>
+              <div id="tb-oncanvas"></div>
+            </div>
+          </div>
+          <div class="cbox wide">
+            <h4>Can every reader tell the series apart? <span class="secnote">closest pair per type of vision, CIEDE2000 distance, below 10 is a warning</span></h4>
+            <div id="tb-cvd"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ 3. DOWNLOAD -->
+    <h2 class="sec" id="download"><span class="secn">3</span>Download</h2>
+    <div class="dlmain">
+      <button type="button" class="dlbtn" id="tb-zip">Download all (zip)</button>
+      <div class="dlmeta"><b id="tb-zipname"></b><span id="tb-zipsize"></span></div>
+    </div>
+    <div class="files" id="tb-files"></div>
+    <div class="viewer">
+      <div class="vhead"><span class="ck" id="tb-vname"></span><button type="button" class="btn2 small" id="tb-copy">Copy</button></div>
+      <pre id="tb-view" tabindex="0"></pre>
+    </div>
+
+    <!-- ============================================================ HOW TO APPLY -->
+    <h2 class="sec" id="apply">How to apply each file</h2>
+    <div class="apply">
+      <div class="ap"><b>Power BI Desktop</b><p><span class="k">View</span> tab, <span class="k">Themes</span>, <span class="k">Browse for themes</span>, pick <code class="fn-pbi"></code>. Every visual takes the data colours, fonts, axis and gridline colours at once.</p></div>
+      <div class="ap"><b>PowerPoint</b><p><span class="k">Design</span> tab, the <span class="k">More</span> arrow at the bottom right of the Themes gallery, <span class="k">Browse for Themes</span>, pick <code class="fn-thmx"></code>. To keep it: same arrow, <span class="k">Save Current Theme</span>. To make it the default: right-click it in the gallery, <span class="k">Set as Default Theme</span>.</p></div>
+      <div class="ap"><b>Excel</b><p><span class="k">Page Layout</span> tab, <span class="k">Themes</span>, <span class="k">Browse for Themes</span>, pick <code class="fn-thmx"></code>. Charts, tables, cell styles and the colour picker switch to your colours and fonts.</p></div>
+      <div class="ap"><b>Word</b><p><span class="k">Design</span> tab, <span class="k">Themes</span>, <span class="k">Browse for Themes</span>, pick <code class="fn-thmx"></code>. Headings take your heading font, charts and SmartArt take your colours.</p></div>
+      <div class="ap"><b>matplotlib</b><pre><code>{`import matplotlib.pyplot as plt
+plt.style.use("`}<span class="fn-mpl"></span>{`")`}</code></pre></div>
+      <div class="ap"><b>plotly</b><pre><code>{`import json, plotly.io as pio, plotly.graph_objects as go
+with open("`}<span class="fn-plotly"></span>{`") as f:
+    pio.templates["brand"] = go.layout.Template(json.load(f))
+pio.templates.default = "brand"`}</code></pre></div>
+      <div class="ap"><b>Vega-Lite</b><pre><code>{`const config = await (await fetch("`}<span class="fn-vega"></span>{`")).json();
+vegaEmbed("#chart", spec, { config });`}</code></pre></div>
+      <div class="ap"><b>CSS</b><pre><code>{`<link rel="stylesheet" href="`}<span class="fn-css"></span>{`">
+.card { background: var(--theme-panel); color: var(--theme-ink); }
+.bar-1 { fill: var(--theme-series-1); }`}</code></pre></div>
+    </div>
+
+    <!-- ============================================================ BOOKNOTES -->
+    <div class="notes">
+    <div class="booknote">
+      <b>What is in the pack.</b> <code>powerbi/&lt;name&gt;.json</code> is a Power BI report theme: data colours, text classes for titles, labels and callouts, the page and visual background, axis and gridline colours, good, bad and neutral for KPIs and conditional formatting, and the table accent. <code>office/&lt;name&gt;.thmx</code> is an Office theme with a 16:9 slide master: dark and light text colours, six accents, heading and body fonts, read by PowerPoint, Excel, Word and Outlook. <code>office/theme1.xml</code> is the same theme as a raw part, for anyone who swaps it inside a .pptx or .xlsx by hand. <code>python/&lt;name&gt;.mplstyle</code> sets the matplotlib colour cycle, background, text, grid and spines. <code>python/plotly-&lt;name&gt;.json</code> is a plotly template with the colourway and a sequential and diverging scale. <code>web/vega-lite-&lt;name&gt;.json</code> is a Vega-Lite config object. <code>web/&lt;name&gt;.css</code> holds CSS custom properties, <code>--theme-series-1</code> onwards. <code>brand.json</code> holds your inputs: drop it back on this page next year and you edit the same theme instead of starting again.
+    </div>
+
+    <div class="booknote">
+      <b>Why the order of the data colours matters.</b> Power BI, Office, matplotlib, plotly and Vega-Lite all hand out colours in list order: the first series gets colour 1, the second gets colour 2, and so on. So colour 1 is the colour your readers see most, and colours 1 and 2 sit next to each other in almost every chart. Put your main brand colour first, put a clear contrast second, and keep two similar colours far apart in the list. Office stores six accents, so a seventh data colour reaches Power BI and Python but not PowerPoint.
+    </div>
+
+    <div class="booknote">
+      <b>Why the contrast and colour-blind checks matter.</b> About 1 man in 12 (8%) and 1 woman in 200 have a red-green colour deficiency, so in a meeting of twenty people at least one reader usually cannot tell a red bar from a green one. The tool simulates each deficiency at full strength (Machado, Oliveira and Fernandes, 2009) and measures the distance between every pair of data colours with CIEDE2000: below 10 two series start to merge on a chart, below 5 most people see one colour. Greyscale shows what the office printer does to your report. For text, WCAG 2 asks for 4.5:1 against the background for body text and 3:1 for large headings and chart marks.
+    </div>
+
+    <div class="booknote">
+      <b>Privacy.</b> Everything runs in this page. A file you drop is read by your browser and never uploaded, and the downloads are built on your machine. The share link carries your colours after the # sign, which browsers do not send to any server. The one outside call: when you type a font name the page does not know, the preview asks Google Fonts for that name so it can draw it.
+    </div>
+
+    <div class="booknote">
+      <b>Related.</b> Already have a theme file and want to know if it holds up? <a href="/tools/theme-check/">Theme Check</a> reads a Power BI .json, a .thmx or any Office file and runs the same checks. Want slides that already use a theme like these? See the <a href="/templates/">templates</a>, where "Build a theme from this slide" opens this page with the slide's colours loaded. The 16 looks come from the design languages of the Open Visualization Protocol.
+    </div>
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  .shell:has(.tb){ max-width:1180px; }
+  .pa.bcg{ --serif:'Source Serif 4', Georgia, serif; --sans:'Figtree', 'Segoe UI', system-ui, sans-serif; --mono:'Figtree', 'Segoe UI', system-ui, sans-serif; font-family:var(--sans); font-variant-numeric:tabular-nums; }
+  .pa.bcg h1{ letter-spacing:-.4px; font-weight:600; }
+  .pa.bcg .dek{ font-family:var(--sans); font-style:normal; font-weight:400; font-size:1.08rem; line-height:1.55; }
+  .pa.bcg .eyebrow, .pa.bcg .ck{ font-weight:600; letter-spacing:.12em; }
+  .pa{ --panel:#FBFCFB; --body:#293a35; --pass:#0E7C6B; --fail:#C0402E; --warn:#B07C1F; color:var(--body); font-size:1.02rem; line-height:1.6; }
+  .pa a{ color:var(--teal-ink); text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1.5px; text-decoration-color:rgba(14,157,138,.4); }
+  .pa a:hover{ color:var(--teal); text-decoration-color:var(--teal); }
+  .tb .head{ padding:clamp(30px,5vw,52px) 0 clamp(14px,2vw,22px); }
+  .tb .eyebrow{ display:inline-flex; align-items:center; gap:10px; font-family:var(--mono); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--teal-ink); margin:0 0 20px; }
+  .tb .eyebrow::before{ content:""; width:26px; height:1px; background:var(--teal); }
+  .tb .eyebrow a{ color:inherit; text-decoration:none; }
+  .tb h1{ font-family:var(--serif); font-weight:600; font-size:clamp(2.1rem,5vw,3.1rem); line-height:1.08; letter-spacing:-.7px; margin:0; color:#101B18; }
+  .tb .dek{ color:var(--mid); margin:18px 0 0; max-width:66ch; }
+
+  .tb .steps{ list-style:none; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:22px 0 0; }
+  .tb .steps li{ display:flex; gap:14px; align-items:flex-start; padding:16px 18px; background:var(--panel); border:1px solid var(--hair-2); border-radius:14px; }
+  .tb .two-n{ flex:none; width:30px; height:30px; border-radius:50%; background:#101B18; color:#fff; font-family:var(--serif); font-size:1rem; font-weight:600; display:flex; align-items:center; justify-content:center; }
+  .tb .steps b{ display:block; font-family:var(--serif); font-size:1.14rem; color:#101B18; margin:2px 0 4px; }
+  .tb .steps p{ margin:0; font-size:.88rem; color:var(--mid); line-height:1.5; }
+
+  .tb .sec{ font-family:var(--serif); font-weight:600; font-size:1.45rem; margin:44px 0 10px; color:#101B18; display:flex; align-items:center; gap:12px; scroll-margin-top:16px; }
+  .tb .secn{ flex:none; width:28px; height:28px; border-radius:50%; background:var(--teal-ink); color:#fff; font-family:var(--sans); font-size:.9rem; display:flex; align-items:center; justify-content:center; }
+  .tb .secnote, .tb .secnote2{ font-family:var(--sans); font-weight:400; font-size:.8rem; color:var(--faint); letter-spacing:0; }
+  .tb .secnote2{ margin:-4px 0 12px; font-size:.86rem; }
+  .tb .ck{ font-family:var(--mono); font-size:.64rem; text-transform:uppercase; color:var(--teal-ink); display:block; }
+  .tb .hint{ margin:6px 0 0; font-size:.8rem; color:var(--mid); line-height:1.5; }
+  .tb code{ font-family:ui-monospace, Consolas, monospace; font-size:.84em; background:#EEF3F1; border-radius:4px; padding:1px 5px; color:#101B18; word-break:break-word; }
+
+  /* presets */
+  .tb .presets{ display:grid; grid-template-columns:repeat(auto-fill,minmax(172px,1fr)); gap:10px; }
+  .tb .preset{ font:inherit; text-align:left; cursor:pointer; border:1px solid; border-radius:12px; padding:12px 12px 10px; display:flex; flex-direction:column; gap:3px; min-width:0; transition:transform .12s, box-shadow .12s; box-shadow:0 1px 0 rgba(16,27,24,.04); }
+  .tb .preset:hover{ transform:translateY(-1px); box-shadow:0 4px 14px rgba(16,27,24,.10); }
+  .tb .preset.on{ outline:2.5px solid var(--teal-ink); outline-offset:2px; }
+  .tb .pn{ font-size:1.12rem; font-weight:600; line-height:1.15; letter-spacing:.02em; }
+  .tb .pm{ font-size:.74rem; line-height:1.35; min-height:2em; }
+  .tb .pstrip{ display:flex; height:14px; border-radius:4px; overflow:hidden; margin-top:6px; }
+  .tb .pstrip i{ flex:1; }
+
+  .tb .inputs{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0 0; }
+  .tb .card{ background:var(--panel); border:1px solid var(--hair-2); border-radius:14px; padding:14px 16px; min-width:0; }
+  .tb textarea{ width:100%; margin:8px 0 0; font:inherit; font-family:ui-monospace, Consolas, monospace; font-size:.82rem; border:1px solid var(--hair-2); border-radius:10px; padding:9px 11px; background:#fff; color:#101B18; resize:vertical; box-sizing:border-box; }
+  .tb .row{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px; flex-wrap:wrap; }
+  .tb .found{ font-size:.82rem; color:var(--mid); display:flex; align-items:center; gap:3px; flex-wrap:wrap; }
+  .tb .found i{ width:14px; height:14px; border-radius:3px; display:inline-block; border:1px solid rgba(0,0,0,.12); }
+  .tb .drop{ border-style:dashed; cursor:pointer; display:flex; flex-direction:column; justify-content:center; text-align:center; transition:border-color .15s, background .15s; }
+  .tb .drop .ck{ text-align:left; }
+  .tb .drop .dl{ margin:12px 0 0; }
+  .tb .drop .dl b{ color:#101B18; }
+  .tb .drop.over{ border-color:var(--teal); background:var(--teal-wash); }
+  .tb .drop button{ font:inherit; font-weight:600; border:none; background:none; color:var(--teal-ink); cursor:pointer; text-decoration:underline; padding:0; }
+  .tb .status{ min-height:1.4em; margin:10px 0 0; font-size:.86rem; color:var(--teal-ink); }
+  .tb .status.err{ color:var(--fail); }
+
+  .tb .btn2{ font:inherit; font-size:.84rem; font-weight:600; background:#fff; color:var(--teal-ink); border:1px solid var(--teal-ink); border-radius:9px; padding:7px 12px; cursor:pointer; line-height:1.25; }
+  .tb .btn2:hover:not([disabled]){ background:var(--teal-wash); }
+  .tb .btn2[disabled]{ opacity:.45; cursor:default; }
+  .tb .btn2.quiet{ border-color:var(--hair-2); color:var(--mid); }
+  .tb .btn2.small{ padding:4px 10px; font-size:.78rem; }
+  .tb .btnrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+
+  /* editor + stage */
+  .tb .work{ display:grid; grid-template-columns:minmax(300px,370px) minmax(0,1fr); gap:22px; align-items:start; }
+  .tb .editor{ background:var(--panel); border:1px solid var(--hair-2); border-radius:14px; padding:16px; min-width:0; }
+  .tb .field{ padding:0 0 14px; margin:0 0 14px; border-bottom:1px solid var(--hair); }
+  .tb .field:last-of-type{ border-bottom:none; }
+  .tb .fhead{ display:flex; justify-content:space-between; align-items:baseline; }
+  .tb .fnote{ font-size:.74rem; color:var(--faint); }
+  .tb input[type=text]{ font:inherit; font-size:.9rem; border:1px solid var(--hair-2); border-radius:8px; padding:6px 9px; background:#fff; color:#101B18; min-width:0; box-sizing:border-box; }
+  .tb #tb-name{ width:100%; margin-top:6px; }
+  .tb input[type=text].bad{ border-color:var(--fail); background:#FFF6F4; }
+  .tb input[type=color]{ width:34px; height:30px; padding:0; border:1px solid var(--hair-2); border-radius:7px; background:#fff; cursor:pointer; flex:none; }
+  .tb input[type=color]::-webkit-color-swatch-wrapper{ padding:2px; }
+  .tb input[type=color]::-webkit-color-swatch{ border:none; border-radius:5px; }
+  .tb .colors{ list-style:none; padding:0; margin:10px 0 8px; display:flex; flex-direction:column; gap:6px; }
+  .tb .colors li{ display:flex; align-items:center; gap:6px; }
+  .tb .cn{ flex:none; width:20px; font-size:.74rem; font-weight:600; color:var(--faint); text-align:right; }
+  .tb .colors li.off .cn{ color:#C4CCC9; }
+  .tb .colors input[type=text]{ width:88px; font-family:ui-monospace, Consolas, monospace; font-size:.84rem; text-transform:uppercase; }
+  .tb .ib{ flex:none; width:28px; height:28px; border:1px solid var(--hair-2); border-radius:7px; background:#fff; color:var(--mid); cursor:pointer; font-size:.86rem; line-height:1; padding:0; }
+  .tb .ib:hover:not([disabled]){ border-color:var(--teal-ink); color:var(--teal-ink); }
+  .tb .ib[disabled]{ opacity:.3; cursor:default; }
+  .tb .ib.x:hover:not([disabled]){ border-color:var(--fail); color:var(--fail); }
+  .tb .colors .flag{ font-size:.7rem; color:var(--warn); font-weight:600; white-space:nowrap; }
+  .tb .add{ width:100%; }
+  .tb .roles{ display:grid; grid-template-columns:1fr; gap:6px; margin-top:8px; }
+  .tb .role{ display:grid; grid-template-columns:34px 88px minmax(0,1fr); gap:8px; align-items:center; }
+  .tb .role input[type=text]{ width:88px; font-family:ui-monospace, Consolas, monospace; font-size:.84rem; text-transform:uppercase; }
+  .tb .role span{ font-size:.84rem; color:#101B18; line-height:1.2; }
+  .tb .role small{ display:block; font-size:.72rem; color:var(--faint); }
+  .tb .fonts{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+  .tb .fonts label{ font-size:.78rem; color:var(--mid); display:flex; flex-direction:column; gap:3px; min-width:0; }
+  .tb .fonts input{ width:100%; }
+
+  .tb .stage{ min-width:0; }
+  .tb .bar{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+  .tb .seg{ display:inline-flex; border:1px solid var(--hair-2); border-radius:10px; overflow:hidden; background:#fff; }
+  .tb .seg button{ font:inherit; font-size:.84rem; font-weight:600; border:none; background:none; padding:7px 13px; color:var(--mid); cursor:pointer; }
+  .tb .seg button.on{ background:#101B18; color:#fff; }
+  .tb .seg.small{ align-items:center; padding-left:10px; }
+  .tb .segk{ font-size:.78rem; color:var(--faint); white-space:nowrap; }
+  .tb .seg select{ font:inherit; font-size:.84rem; border:none; background:transparent; padding:7px 8px; color:#101B18; cursor:pointer; min-width:0; max-width:220px; }
+  .tb .canvas{ border:1px solid var(--hair-2); border-radius:10px; overflow:hidden; line-height:0; box-shadow:0 8px 28px rgba(16,27,24,.10); }
+  .tb .canvas svg{ width:100%; height:auto; display:block; }
+  .tb .capt{ margin:8px 0 0; font-size:.76rem; color:var(--faint); }
+  .tb .capt b{ color:var(--warn); }
+
+  /* checks */
+  .tb .checks{ margin:22px 0 0; }
+  .tb .sub{ font-family:var(--serif); font-size:1.2rem; font-weight:600; color:#101B18; margin:0 0 10px; }
+  .tb .verdicts{ list-style:none; padding:0; margin:0 0 14px; display:flex; flex-direction:column; gap:6px; }
+  .tb .verdicts li{ padding:10px 14px 10px 40px; border-radius:10px; font-size:.93rem; line-height:1.45; position:relative; background:#FFF8EC; border:1px solid #F0DDB8; color:#4B3A12; }
+  .tb .verdicts li::before{ content:"!"; position:absolute; left:13px; top:10px; width:18px; height:18px; border-radius:50%; background:var(--warn); color:#fff; font-size:.72rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .tb .verdicts li.bad{ background:#FFF3F1; border-color:#F2C9C1; color:#5A1E14; }
+  .tb .verdicts li.bad::before{ background:var(--fail); }
+  .tb .verdicts li.ok{ background:#F1FAF7; border-color:#C4E6DD; color:#10372F; }
+  .tb .verdicts li.ok::before{ content:"\2713"; background:var(--pass); }
+  .tb .cgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .tb .cbox{ background:var(--panel); border:1px solid var(--hair-2); border-radius:14px; padding:14px 16px; min-width:0; }
+  .tb .cbox.wide{ margin-top:12px; }
+  .tb .cbox h4{ margin:0 0 10px; font-size:.92rem; color:#101B18; font-weight:600; }
+  .tb .cbox h4 .secnote{ display:block; margin-top:2px; }
+  .tb .crow{ display:grid; grid-template-columns:auto minmax(0,1fr) auto auto; gap:10px; align-items:center; padding:6px 0; border-top:1px solid var(--hair); font-size:.86rem; }
+  .tb .crow:first-child{ border-top:none; }
+  .tb .sample{ font-size:.78rem; font-weight:600; border-radius:6px; padding:3px 8px; border:1px solid rgba(0,0,0,.08); white-space:nowrap; }
+  .tb .ratio{ font-weight:600; color:#101B18; white-space:nowrap; }
+  .tb .grade{ font-size:.66rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:99px; color:#fff; background:var(--pass); white-space:nowrap; }
+  .tb .grade.w{ background:var(--warn); } .tb .grade.f{ background:var(--fail); }
+  .tb .chip{ display:inline-block; width:16px; height:16px; border-radius:4px; border:1px solid rgba(0,0,0,.12); vertical-align:-3px; }
+  .tb .oc{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tb .ocell{ display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 6px 6px; border-radius:10px; min-width:62px; border:1px solid rgba(0,0,0,.06); }
+  .tb .ocell svg{ display:block; }
+  .tb .ocell span{ font-size:.72rem; font-weight:600; }
+  .tb .ocell .grade{ font-size:.58rem; }
+  .tb .cvd{ display:flex; flex-direction:column; }
+  .tb .cv{ display:grid; grid-template-columns:minmax(150px,210px) minmax(0,1fr) auto; gap:12px; align-items:center; padding:9px 0; border-top:1px solid var(--hair); }
+  .tb .cv:first-child{ border-top:none; }
+  .tb .cv b{ display:block; font-size:.86rem; color:#101B18; }
+  .tb .cv small{ display:block; font-size:.74rem; color:var(--faint); line-height:1.35; }
+  .tb .cvstrip{ display:flex; gap:3px; min-width:0; }
+  .tb .cvstrip i{ flex:1; height:26px; border-radius:4px; position:relative; min-width:10px; }
+  .tb .cvstrip i.hit{ outline:2.5px solid #101B18; outline-offset:1px; }
+  .tb .cvstrip i em{ position:absolute; left:0; right:0; bottom:-15px; font-style:normal; font-size:.62rem; color:var(--faint); text-align:center; line-height:1; }
+  .tb .cvr{ text-align:right; font-size:.8rem; white-space:nowrap; }
+  .tb .cvr .grade{ display:inline-block; margin-top:3px; }
+
+  /* downloads */
+  .tb .dlmain{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; padding:18px 20px; background:#101B18; border-radius:14px; }
+  .tb .dlbtn{ font:inherit; font-size:1.05rem; font-weight:700; background:#8FE3D3; color:#0B2A24; border:none; border-radius:11px; padding:13px 22px; cursor:pointer; }
+  .tb .dlbtn:hover{ background:#B5EFE4; }
+  .tb .dlmeta{ display:flex; flex-direction:column; color:#C9D6D2; font-size:.84rem; min-width:0; }
+  .tb .dlmeta b{ color:#fff; font-weight:600; font-size:.95rem; word-break:break-all; }
+  .tb .files{ display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin:12px 0 0; }
+  .tb .file{ background:var(--panel); border:1px solid var(--hair-2); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .tb .file.on{ border-color:var(--teal-ink); box-shadow:0 0 0 1px var(--teal-ink) inset; }
+  .tb .file b{ font-size:.92rem; color:#101B18; }
+  .tb .file .fnm{ font-family:ui-monospace, Consolas, monospace; font-size:.74rem; color:var(--mid); word-break:break-all; }
+  .tb .file .fdesc{ font-size:.76rem; color:var(--faint); line-height:1.4; flex:1; }
+  .tb .file .btnrow{ margin-top:6px; }
+  .tb .viewer{ margin:12px 0 0; border:1px solid var(--hair-2); border-radius:12px; overflow:hidden; background:#0F1A17; }
+  .tb .vhead{ display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:#16241F; }
+  .tb .vhead .ck{ color:#8FE3D3; text-transform:none; letter-spacing:.02em; font-size:.76rem; }
+  .tb .viewer pre{ margin:0; padding:12px 14px; max-height:300px; overflow:auto; font-family:ui-monospace, Consolas, monospace; font-size:.76rem; line-height:1.5; color:#D8E6E2; white-space:pre; }
+
+  /* apply */
+  .tb .apply{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .tb .ap{ background:var(--panel); border:1px solid var(--hair-2); border-radius:12px; padding:12px 14px; min-width:0; }
+  .tb .ap b{ display:block; color:#101B18; font-size:.95rem; margin-bottom:4px; }
+  .tb .ap p{ margin:0; font-size:.86rem; line-height:1.55; }
+  .tb .ap .k{ font-weight:600; color:#101B18; background:#fff; border:1px solid var(--hair-2); border-radius:5px; padding:0 5px; white-space:nowrap; }
+  .tb .ap pre{ margin:4px 0 0; background:#0F1A17; border-radius:8px; padding:9px 11px; overflow-x:auto; font-size:.76rem; line-height:1.55; }
+  .tb .ap pre code{ background:none; color:#D8E6E2; padding:0; font-size:1em; line-height:inherit; white-space:pre; }
+  .tb .ap pre code span{ color:#8FE3D3; }
+
+  .tb .notes{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:36px 0 0; align-items:start; }
+  .tb .booknote{ margin:0; padding:18px 20px; border-left:3px solid var(--teal); background:var(--panel); border-radius:0 12px 12px 0; font-size:.93rem; line-height:1.6; min-width:0; }
+  .tb .booknote b{ color:#101B18; }
+  .tb .booknote:first-child{ grid-row:span 2; }
+
+  @media (max-width:1000px){
+    .tb .work{ grid-template-columns:1fr; }
+    .tb .stage{ order:-1; }
+  }
+  @media (max-width:720px){
+    .tb .steps, .tb .inputs, .tb .cgrid, .tb .apply, .tb .notes{ grid-template-columns:1fr; }
+    .tb .booknote:first-child{ grid-row:auto; }
+    .tb .cv{ grid-template-columns:1fr auto; }
+    .tb .cv .cvstrip{ grid-column:1 / -1; grid-row:2; margin-bottom:12px; }
+    .tb .crow{ gap:8px; }
+    .tb .presets{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .tb .seg select{ max-width:170px; }
+  }
+</style>
+
+<script type="module" is:inline>
+import * as tk from "/tools/themekit/themekit.js";
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const PRESETS = JSON.parse($("#tb-presets").textContent);
+const ROLES = [["background", "Background", "page and slide"], ["panel", "Panel", "cards and visual backgrounds"], ["ink", "Ink", "titles and big numbers"], ["body", "Body text", "labels, axes, paragraphs"], ["hairline", "Hairline", "borders and axis lines"], ["gridline", "Gridline", "chart gridlines"]];
+const SENT = [["good", "Good", "on target, going up"], ["bad", "Bad", "off target, going down"], ["neutral", "Neutral", "flat, watch"]];
+const KEYS = { name: "n", colors: "c", background: "bg", panel: "panel", ink: "ink", body: "body", hairline: "hair", gridline: "grid", good: "good", bad: "bad", neutral: "neutral", fontHeading: "fh", fontBody: "fb" };
+const OFFICE_ONLY = new Set(["segoe ui", "segoe ui semibold", "segoe ui light", "aptos", "aptos display", "calibri", "calibri light", "arial", "arial narrow", "georgia", "cambria", "verdana", "tahoma", "trebuchet ms", "century gothic", "franklin gothic book", "franklin gothic medium", "garamond", "gill sans mt", "candara", "corbel", "constantia", "palatino linotype", "book antiqua", "times new roman", "consolas", "system-ui", "sans-serif", "serif"]);
+const VISION = {
+  normal: { name: "Normal vision", who: "most readers" },
+  deutan: { name: "Deuteranopia", who: "green-blind, about 1 in 17 men" },
+  protan: { name: "Protanopia", who: "red-blind, about 1 in 50 men" },
+  tritan: { name: "Tritanopia", who: "blue-blind, about 1 in 10,000 people" },
+  achroma: { name: "Greyscale print", who: "the office printer, e-ink, fax" },
+};
+const ord = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? "th" : ["th", "st", "nd", "rd"][n % 10] || "th");
+const listAnd = (a) => (a.length < 2 ? String(a[0]) : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]);
+const fmtB = (n) => (n >= 1024 ? (n / 1024).toFixed(n >= 10240 ? 0 : 1) + " KB" : n + " B");
+
+let B = tk.completeBrand(tk.DEFAULT_BRAND);
+let vision = "normal", view = "pbi", preDark = null, activePreset = null, viewFile = 0;
+
+/* ---------------------------------------------------------------- state */
+
+function clean(b) {
+  const out = tk.completeBrand(b);
+  out.colors = out.colors.slice(0, 10);
+  if (out.colors.length < 2) out.colors.push(tk.mix(out.colors[0], out.colors[0] === "#FFFFFF" ? -0.5 : 0.45));
+  out.fontHeading = String(out.fontHeading || "Segoe UI").slice(0, 60);
+  out.fontBody = String(out.fontBody || "Segoe UI").slice(0, 60);
+  return out;
+}
+
+function setBrand(b, opts = {}) {
+  B = clean(b);
+  activePreset = opts.preset || null;
+  if (!opts.keepDark) preDark = null;
+  renderEditor();
+  update();
+}
+
+function status(msg, err) { const s = $("#tb-status"); s.textContent = msg || ""; s.classList.toggle("err", !!err); }
+
+/* ---------------------------------------------------------------- URL */
+
+function toParams(b) {
+  const p = new URLSearchParams();
+  p.set(KEYS.name, b.name);
+  p.set(KEYS.colors, b.colors.map((c) => c.slice(1)).join(","));
+  for (const [r] of [...ROLES, ...SENT]) p.set(KEYS[r], b[r].slice(1));
+  p.set(KEYS.fontHeading, b.fontHeading); p.set(KEYS.fontBody, b.fontBody);
+  return p;
+}
+
+function fromParams(p) {
+  const b = {};
+  if (p.get(KEYS.name)) b.name = p.get(KEYS.name);
+  if (p.get(KEYS.colors)) b.colors = p.get(KEYS.colors).split(/[,\s;]+/).map(tk.normHex).filter(Boolean);
+  for (const [r] of [...ROLES, ...SENT]) if (p.get(KEYS[r])) b[r] = tk.normHex(p.get(KEYS[r])) || undefined;
+  if (p.get(KEYS.fontHeading)) b.fontHeading = p.get(KEYS.fontHeading);
+  if (p.get(KEYS.fontBody)) b.fontBody = p.get(KEYS.fontBody);
+  return b;
+}
+
+const hashString = () => toParams(B).toString().replace(/%2C/gi, ",");
+let hashTimer = 0;
+function writeHash() {
+  clearTimeout(hashTimer);
+  hashTimer = setTimeout(() => { try { history.replaceState(null, "", location.pathname + location.search + "#" + hashString()); } catch (e) { /* file:// or sandbox */ } }, 250);
+}
+
+/* A full brand from a few colours: tk.brandFromColors fills the neutrals from colour 1 and pads
+   1 to 3 colours with shades and tints. Capped at 6 series so the padding does not crowd the palette. */
+function fromFew(cols, name) {
+  const b = tk.brandFromColors(cols.slice(0, 3), name);
+  b.colors = cols.length > 3 ? cols.slice(0, 10) : b.colors.slice(0, Math.max(6, cols.length));
+  return b;
+}
+
+function initialBrand() {
+  const h = new URLSearchParams(location.hash.slice(1));
+  const q = new URLSearchParams(location.search);
+  if (h.get(KEYS.colors)) return { brand: fromParams(h), msg: "Loaded the theme from the link." };
+  const preset = q.get("preset") && PRESETS.find((p) => p.id === q.get("preset").toLowerCase());
+  if (preset) return { brand: preset.brand, preset: preset.id, msg: "Loaded " + preset.name + "." };
+  const cols = (q.get("colors") || q.get(KEYS.colors) || "").split(/[,\s;]+/).map(tk.normHex).filter(Boolean);
+  if (cols.length) {
+    const name = q.get("name") || q.get(KEYS.name) || "Slide palette";
+    const base = fromFew(cols, name);
+    const full = fromParams(q); delete full.colors; delete full.name;
+    return { brand: { ...base, ...full }, msg: "Built a theme from " + cols.length + " colour" + (cols.length > 1 ? "s" : "") + " in the link. Check the neutrals and the colour order below." };
+  }
+  return { brand: tk.DEFAULT_BRAND, msg: "" };
+}
+
+/* ---------------------------------------------------------------- editor */
+
+function colorRow(c, i, n) {
+  return `<li class="${i >= 6 ? "off" : ""}" data-i="${i}">
+    <span class="cn" title="${i >= 6 ? "Power BI and Python only, Office keeps 6" : "Series " + (i + 1)}">${i + 1}</span>
+    <input type="color" value="${c.toLowerCase()}" aria-label="Colour ${i + 1}" />
+    <input type="text" value="${c}" maxlength="7" spellcheck="false" aria-label="Hex code of colour ${i + 1}" />
+    <button type="button" class="ib" data-act="up" aria-label="Move colour ${i + 1} up" ${i === 0 ? "disabled" : ""}>&#8593;</button>
+    <button type="button" class="ib" data-act="down" aria-label="Move colour ${i + 1} down" ${i === n - 1 ? "disabled" : ""}>&#8595;</button>
+    <button type="button" class="ib x" data-act="del" aria-label="Remove colour ${i + 1}" ${n <= 2 ? "disabled" : ""}>&#215;</button>
+  </li>`;
+}
+
+function roleRow([key, label, what]) {
+  return `<div class="role" data-role="${key}">
+    <input type="color" value="${B[key].toLowerCase()}" aria-label="${label}" />
+    <input type="text" value="${B[key]}" maxlength="7" spellcheck="false" aria-label="${label} hex code" />
+    <span>${label}<small>${what}</small></span>
+  </div>`;
+}
+
+function renderEditor() {
+  $("#tb-name").value = B.name;
+  $("#tb-colors").innerHTML = B.colors.map((c, i) => colorRow(c, i, B.colors.length)).join("");
+  $("#tb-add").disabled = B.colors.length >= 10;
+  $("#tb-count").textContent = B.colors.length + " of 10";
+  $("#tb-roles").innerHTML = ROLES.map(roleRow).join("");
+  $("#tb-sent").innerHTML = SENT.map(roleRow).join("");
+  $("#tb-fh").value = B.fontHeading; $("#tb-fb").value = B.fontBody;
+  $$(".preset").forEach((el) => el.classList.toggle("on", el.dataset.id === activePreset));
+  syncDarkLabel();
+}
+
+const isDark = () => tk.luminance(B.background) < 0.2;
+function syncDarkLabel() { $("#tb-dark").textContent = isDark() ? "Light mode version" : "Dark mode version"; }
+
+function onEdit() { activePreset = null; $$(".preset.on").forEach((el) => el.classList.remove("on")); update(); }
+
+function bindSwatchInputs(container, get, set) {
+  container.addEventListener("input", (e) => {
+    const t = e.target, host = t.closest("[data-i],[data-role]");
+    if (!host) return;
+    if (t.type === "color") {
+      const v = tk.normHex(t.value); set(host, v);
+      const txt = host.querySelector("input[type=text]"); txt.value = v; txt.classList.remove("bad");
+      onEdit();
+    } else if (t.type === "text") {
+      const v = tk.normHex(t.value);
+      t.classList.toggle("bad", !v);
+      if (v) { set(host, v); host.querySelector("input[type=color]").value = v.toLowerCase(); onEdit(); }
+    }
+  });
+  container.addEventListener("focusout", (e) => {
+    const t = e.target, host = t.closest("[data-i],[data-role]");
+    if (host && t.type === "text") { t.value = get(host); t.classList.remove("bad"); }
+  });
+}
+
+bindSwatchInputs($("#tb-colors"), (h) => B.colors[+h.dataset.i], (h, v) => { B.colors[+h.dataset.i] = v; });
+bindSwatchInputs($("#tb-roles"), (h) => B[h.dataset.role], (h, v) => { B[h.dataset.role] = v; syncDarkLabel(); });
+bindSwatchInputs($("#tb-sent"), (h) => B[h.dataset.role], (h, v) => { B[h.dataset.role] = v; });
+
+$("#tb-colors").addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-act]"); if (!btn) return;
+  const i = +btn.closest("li").dataset.i, c = B.colors, act = btn.dataset.act;
+  if (act === "up" && i > 0) [c[i - 1], c[i]] = [c[i], c[i - 1]];
+  if (act === "down" && i < c.length - 1) [c[i + 1], c[i]] = [c[i], c[i + 1]];
+  if (act === "del" && c.length > 2) c.splice(i, 1);
+  renderEditor(); onEdit();
+  const target = act === "up" ? i - 1 : act === "down" ? i + 1 : Math.min(i, c.length - 1);
+  const again = $(`#tb-colors li[data-i="${target}"] button[data-act="${act}"]`) || $(`#tb-colors li[data-i="${target}"] input[type=text]`);
+  if (again && !again.disabled) again.focus();
+});
+
+$("#tb-add").addEventListener("click", () => {
+  if (B.colors.length >= 10) return;
+  const pool = [...tk.DEFAULT_BRAND.colors, "#16A085", "#D35400", "#7F8C8D", "#2C3E50", "#E84393", "#00A8E8"];
+  let c = pool.find((p) => B.colors.every((x) => tk.deltaE(x, p) > 12));
+  if (!c) c = tk.mix(B.colors[B.colors.length - 1], 0.4);
+  B.colors.push(c); renderEditor(); onEdit();
+  $(`#tb-colors li[data-i="${B.colors.length - 1}"] input[type=text]`).focus();
+});
+
+$("#tb-name").addEventListener("input", (e) => { B.name = e.target.value.trim() || "My Brand"; update(); });
+$("#tb-fh").addEventListener("input", (e) => { B.fontHeading = e.target.value.trim() || "Segoe UI"; update(); });
+$("#tb-fb").addEventListener("input", (e) => { B.fontBody = e.target.value.trim() || "Segoe UI"; update(); });
+
+function lightNeutrals(base) {
+  return { background: "#FFFFFF", panel: tk.mix(base, 0.94), ink: tk.mix(base, -0.8), body: tk.mix(base, -0.6), hairline: tk.mix(base, 0.8), gridline: tk.mix(base, 0.9) };
+}
+function darkNeutrals(base) {
+  return { background: tk.mix(base, -0.88), panel: tk.mix(base, -0.8), ink: tk.mix(base, 0.93), body: tk.mix(base, 0.72), hairline: tk.mix(base, -0.62), gridline: tk.mix(base, -0.72) };
+}
+
+$("#tb-gen").addEventListener("click", () => {
+  const base = B.colors[0];
+  Object.assign(B, isDark() ? darkNeutrals(base) : lightNeutrals(base));
+  preDark = null; renderEditor(); onEdit();
+  status("Built the six neutrals from colour 1 (" + base + "): tints for background, panel and lines, shades for text.");
+});
+
+$("#tb-dark").addEventListener("click", () => {
+  if (isDark()) {
+    if (preDark) { Object.assign(B, preDark); preDark = null; status("Back to the light version you had before."); }
+    else { Object.assign(B, lightNeutrals(B.colors[0])); status("Built light neutrals from colour 1."); }
+    renderEditor(); onEdit(); return;
+  }
+  preDark = { colors: B.colors.slice() }; for (const [r] of ROLES) preDark[r] = B[r];
+  Object.assign(B, darkNeutrals(B.colors[0]));
+  const lifted = [];
+  B.colors = B.colors.map((c, i) => {
+    if (tk.contrast(c, B.background) >= 3) return c;
+    let k = 0.1, out = c;
+    while (k <= 0.8 && tk.contrast(out, B.background) < 3) { out = tk.mix(c, k); k += 0.05; }
+    lifted.push(i + 1); return out;
+  });
+  renderEditor(); onEdit();
+  status("Dark background, light text." + (lifted.length ? " Lightened colour" + (lifted.length > 1 ? "s " : " ") + listAnd(lifted) + " so " + (lifted.length > 1 ? "they stay" : "it stays") + " visible on it." : "") + " Press the button again to go back.");
+});
+
+$("#tb-reset").addEventListener("click", () => { setBrand(tk.DEFAULT_BRAND); status("Started over from the default brand."); });
+
+$("#tb-share").addEventListener("click", async () => {
+  const url = location.origin + location.pathname + "#" + hashString();
+  try { history.replaceState(null, "", url); } catch (e) { /* ignore */ }
+  try { await navigator.clipboard.writeText(url); status("Link copied. Anyone who opens it gets this exact theme."); }
+  catch (e) { status("Copy this link: " + url); }
+});
+
+/* ---------------------------------------------------------------- start options */
+
+$("#presets").addEventListener("click", (e) => {
+  const btn = e.target.closest(".preset"); if (!btn) return;
+  const p = PRESETS.find((x) => x.id === btn.dataset.id);
+  setBrand(p.brand, { preset: p.id });
+  status(p.name + " loaded: " + p.motto + " Made for " + p.madeFor + ". Change anything below.");
+});
+
+function extractColors(text) {
+  const out = [];
+  const add = (h) => { h = tk.normHex(h); if (h && !out.includes(h)) out.push(h); };
+  const re = /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})[^)]*\)|#([0-9a-f]{6}|[0-9a-f]{3})(?![0-9a-z])|(?:\b0x|\b)([0-9a-f]{6})\b/gi;
+  for (const m of String(text).matchAll(re)) {
+    if (m[1] !== undefined) add(tk.rgbToHex([+m[1], +m[2], +m[3]].map((v) => Math.min(255, v))));
+    else add(m[4] || m[5]);
+  }
+  return out;
+}
+
+function greyish(h) { const [r, g, b] = tk.hexToRgb(h); return Math.max(r, g, b) - Math.min(r, g, b) < 28; }
+
+function brandFromPaste(cols) {
+  const roles = {};
+  let data = cols.filter((c) => {
+    const L = tk.luminance(c);
+    if (greyish(c) && L > 0.8 && !roles.background) { roles.background = c; return false; }
+    if (greyish(c) && L > 0.8 && roles.background && !roles.panel) { roles.panel = c; return false; }
+    if (L < 0.035 && !roles.ink) { roles.ink = c; return false; }
+    return true;
+  });
+  if (!data.length) { data = cols.slice(); for (const k in roles) delete roles[k]; }
+  const name = PRESETS.some((p) => p.name === B.name) ? "My Brand" : B.name;
+  const keep = { fontHeading: B.fontHeading, fontBody: B.fontBody, good: B.good, bad: B.bad, neutral: B.neutral };
+  return { brand: { ...fromFew(data, name), ...keep, ...roles }, roles, padded: data.length <= 3 };
+}
+
+const paste = $("#tb-paste");
+paste.addEventListener("input", () => {
+  const cs = extractColors(paste.value);
+  $("#tb-found").innerHTML = cs.length ? "Found " + cs.length + " colour" + (cs.length > 1 ? "s" : "") + ": " + cs.slice(0, 16).map((c) => `<i style="background:${c}" title="${c}"></i>`).join("") + (cs.length > 10 ? " (the first 10 are used)" : "") : "No colour found yet.";
+  $("#tb-use-paste").disabled = !cs.length;
+});
+$("#tb-use-paste").addEventListener("click", () => {
+  const cs = extractColors(paste.value); if (!cs.length) return;
+  const { brand, roles, padded } = brandFromPaste(cs);
+  setBrand(brand);
+  const used = Object.entries(roles).map(([k, v]) => v + " as " + (k === "ink" ? "text" : k)).join(", ");
+  status("Using " + B.colors.length + " data colour" + (B.colors.length > 1 ? "s" : "") + (used ? ", and " + used : "") + "." + (padded ? " Added shades and tints of your colours to reach " + B.colors.length + " series." : "") + " Neutrals come from colour 1 unless you pasted them; fonts and KPI colours stay as they were.");
+  $("#edit").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+const drop = $("#tb-drop"), fileIn = $("#tb-file");
+async function loadFile(f) {
+  if (!f) return;
+  try {
+    const res = await tk.brandFromFile(f);
+    const b = res.brand;
+    if (!b.name || /^(Office theme|Office|My Brand)$/i.test(b.name)) b.name = f.name.replace(/\.[^.]+$/, "");
+    setBrand(b);
+    status("Read " + B.colors.length + " colours, the neutrals and the fonts (" + B.fontHeading + ", " + B.fontBody + ") from " + f.name + ", " + res.source + ".");
+  } catch (e) {
+    status("Could not read " + f.name + ": " + e.message + " Try a .json, .thmx, .pptx, .xlsx or .docx.", true);
+  }
+}
+drop.addEventListener("click", (e) => { if (e.target.id !== "tb-choose") fileIn.click(); });
+drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileIn.click(); } });
+$("#tb-choose").addEventListener("click", (e) => { e.stopPropagation(); fileIn.click(); });
+drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
+drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); loadFile(e.dataTransfer.files[0]); });
+fileIn.addEventListener("change", (e) => { loadFile(e.target.files[0]); e.target.value = ""; });
+
+/* ---------------------------------------------------------------- preview drawing */
+
+const ff = (f) => `'${String(f).replace(/['"<>&;]/g, "")}', 'Segoe UI', system-ui, sans-serif`;
+function T(x, y, str, o = {}) {
+  return `<text x="${x}" y="${y}" font-size="${o.size || 13}" fill="${o.fill}" font-family="${esc(o.font)}"${o.weight ? ` font-weight="${o.weight}"` : ""}${o.anchor ? ` text-anchor="${o.anchor}"` : ""}>${esc(str)}</text>`;
+}
+function palette() {
+  const C = (h) => (vision === "normal" ? h : tk.simulate(h, vision));
+  const p = { cs: B.colors.map(C), HF: ff(B.fontHeading), BF: ff(B.fontBody) };
+  for (const k of ["background", "panel", "ink", "body", "hairline", "gridline", "good", "bad", "neutral"]) p[k] = C(B[k]);
+  return p;
+}
+const onFill = (fill, p) => (tk.contrast(fill, p.ink) >= tk.contrast(fill, p.background) ? p.ink : p.background);
+
+function panelBox(x, y, w, h, p, title) {
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" fill="${p.panel}" stroke="${p.hairline}"/>` + (title ? T(x + 18, y + 30, title, { size: 16, fill: p.ink, font: p.HF, weight: 600 }) : "");
+}
+
+function legend(x, y, items, p, right) {
+  let out = "", cx = x;
+  const widths = items.map(([name]) => 24 + name.length * 8 + 14);
+  if (right) cx = x - widths.reduce((a, b) => a + b, 0);
+  items.forEach(([name, col], i) => { out += `<rect x="${cx}" y="${y - 10}" width="12" height="12" rx="2" fill="${col}"/>` + T(cx + 16, y + 1, name, { size: 14, fill: p.body, font: p.BF }); cx += widths[i]; });
+  return out;
+}
+
+function pbiSVG() {
+  const p = palette(), cs = p.cs, n = cs.length;
+  let s = `<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mock Power BI report page drawn with your theme"><rect width="1280" height="720" fill="${p.background}"/>`;
+  s += T(32, 54, "Sales overview", { size: 30, fill: p.ink, font: p.HF, weight: 600 });
+  s += T(32, 80, "Year to date, all regions", { size: 14, fill: p.body, font: p.BF });
+  let px = 1248;
+  for (const lab of ["All products", "All regions", "2026"]) {
+    const w = lab.length * 8 + 30; px -= w;
+    s += `<rect x="${px}" y="34" width="${w}" height="32" rx="16" fill="${p.panel}" stroke="${p.hairline}"/>` + T(px + w / 2, 55, lab, { size: 13, fill: p.body, font: p.BF, anchor: "middle" });
+    px -= 10;
+  }
+  const kpis = [["Revenue", "4.82 M", "▲ 6.1% vs plan", p.good, [3, 4, 3.6, 5, 4.6, 5.8, 6.4]], ["Gross margin", "31.4%", "▼ 1.2 pts vs plan", p.bad, [6, 5.6, 5.9, 5, 4.4, 4.6, 4]], ["Orders", "12,480", "▲ 3.4% vs last year", p.good, [3, 3.4, 4, 3.8, 4.6, 4.9, 5.2]], ["On-time delivery", "93.0%", "■ flat vs target", p.neutral, [5, 5.2, 4.8, 5.1, 4.9, 5, 5]]];
+  kpis.forEach(([lab, val, delta, col, sp], i) => {
+    const x = 32 + i * 308, y = 104, w = 292, h = 112;
+    s += panelBox(x, y, w, h, p);
+    s += T(x + 18, y + 28, lab, { size: 15, fill: p.body, font: p.BF });
+    s += T(x + 18, y + 72, val, { size: 36, fill: p.ink, font: p.HF, weight: 600 });
+    s += T(x + 18, y + 98, delta, { size: 14, fill: col, font: p.BF, weight: 600 });
+    const pts = sp.map((v, k) => `${x + 190 + k * 13},${y + 78 - v * 6}`).join(" ");
+    s += `<polyline points="${pts}" fill="none" stroke="${cs[0]}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  });
+  { // clustered column
+    const x = 32, y = 232, w = 600, h = 228, ns = Math.min(3, n);
+    s += panelBox(x, y, w, h, p, "Revenue by quarter");
+    s += legend(x + w - 16, y + 30, ["2024", "2025", "2026"].slice(3 - ns).map((nm, k) => [nm, cs[k]]), p, true);
+    const ox = x + 56, oy = y + h - 34, ph = h - 92, pw = w - 80;
+    for (let g = 0; g <= 4; g++) { const gy = oy - (g * ph) / 4; s += `<line x1="${ox}" x2="${ox + pw}" y1="${gy}" y2="${gy}" stroke="${g ? p.gridline : p.hairline}" stroke-width="${g ? 1 : 1.5}"/>` + T(ox - 10, gy + 4, g * 50 + "", { size: 13, fill: p.body, font: p.BF, anchor: "end" }); }
+    const data = [[92, 118, 131], [104, 126, 150], [99, 139, 162], [121, 152, 188]];
+    const gw = pw / 4, bw = Math.min(34, (gw - 26) / ns);
+    data.forEach((grp, gi) => {
+      const gx = ox + gi * gw + (gw - bw * ns - 4 * (ns - 1)) / 2;
+      grp.slice(3 - ns).forEach((v, k) => { const bh = (v / 200) * ph; s += `<rect x="${gx + k * (bw + 4)}" y="${oy - bh}" width="${bw}" height="${bh}" rx="2" fill="${cs[k]}"/>`; });
+      s += T(ox + gi * gw + gw / 2, oy + 21, "Q" + (gi + 1), { size: 14, fill: p.body, font: p.BF, anchor: "middle" });
+    });
+  }
+  { // line chart
+    const x = 648, y = 232, w = 600, h = 228, ns = Math.min(4, n);
+    const names = ["North", "South", "East", "West"];
+    s += panelBox(x, y, w, h, p, "Orders per month");
+    s += legend(x + w - 16, y + 30, names.slice(0, ns).map((nm, k) => [nm, cs[k]]), p, true);
+    const ox = x + 50, oy = y + h - 34, ph = h - 92, pw = w - 74;
+    for (let g = 0; g <= 3; g++) { const gy = oy - (g * ph) / 3; s += `<line x1="${ox}" x2="${ox + pw}" y1="${gy}" y2="${gy}" stroke="${g ? p.gridline : p.hairline}" stroke-width="${g ? 1 : 1.5}"/>` + T(ox - 10, gy + 4, g * 400 + "", { size: 13, fill: p.body, font: p.BF, anchor: "end" }); }
+    const series = [[620, 700, 760, 720, 810, 880, 930, 900, 990, 1040, 1090, 1150], [540, 560, 600, 650, 640, 700, 690, 760, 800, 790, 850, 880], [380, 420, 410, 470, 520, 500, 560, 590, 580, 640, 660, 700], [300, 290, 330, 320, 360, 390, 380, 420, 410, 450, 470, 500]];
+    const months = "JFMAMJJASOND";
+    for (let k = ns - 1; k >= 0; k--) {
+      const pts = series[k].map((v, i) => [ox + 10 + (i * (pw - 20)) / 11, oy - (v / 1200) * ph]);
+      s += `<polyline points="${pts.map((q) => q.join(",")).join(" ")}" fill="none" stroke="${cs[k]}" stroke-width="2.6" stroke-linejoin="round"/>`;
+      const e = pts[pts.length - 1]; s += `<circle cx="${e[0]}" cy="${e[1]}" r="4" fill="${cs[k]}"/>`;
+    }
+    for (let i = 0; i < 12; i++) s += T(ox + 10 + (i * (pw - 20)) / 11, oy + 21, months[i], { size: 13, fill: p.body, font: p.BF, anchor: "middle" });
+  }
+  { // donut
+    const x = 32, y = 476, w = 380, h = 212, ns = Math.min(6, n);
+    const names = ["Online", "Retail", "Partners", "Direct", "Export", "Other"], vals = [34, 24, 16, 12, 8, 6].slice(0, ns);
+    const tot = vals.reduce((a, b) => a + b, 0);
+    s += panelBox(x, y, w, h, p, "Revenue by channel");
+    const cx = x + 100, cy = y + 124, r = 58, C = 2 * Math.PI * r;
+    let off = 0;
+    vals.forEach((v, k) => { const len = (v / tot) * C; s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${cs[k]}" stroke-width="30" stroke-dasharray="${Math.max(0, len - 2)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 ${cx} ${cy})"/>`; off += len; });
+    s += T(cx, cy + 6, "4.8 M", { size: 16, fill: p.ink, font: p.HF, weight: 600, anchor: "middle" });
+    vals.forEach((v, k) => { const ly = y + 62 + k * 23; s += `<rect x="${x + 196}" y="${ly - 10}" width="11" height="11" rx="2" fill="${cs[k]}"/>` + T(x + 214, ly, names[k], { size: 14, fill: p.body, font: p.BF }) + T(x + w - 18, ly, Math.round((100 * v) / tot) + "%", { size: 14, fill: p.ink, font: p.BF, anchor: "end", weight: 600 }); });
+  }
+  { // table
+    const x = 428, y = 476, w = 820, h = 212;
+    s += panelBox(x, y, w, h, p, "Top accounts");
+    const cols = [["Account", x + 18, "start"], ["Region", x + 250, "start"], ["Revenue", x + 470, "end"], ["Share", x + 490, "start"], ["vs plan", x + 700, "end"], ["Status", x + w - 18, "end"]];
+    const hy = y + 62;
+    cols.forEach(([c, cx, a]) => { s += T(cx, hy, c, { size: 13.5, fill: p.ink, font: p.BF, weight: 600, anchor: a }); });
+    s += `<line x1="${x + 12}" x2="${x + w - 12}" y1="${hy + 10}" y2="${hy + 10}" stroke="${cs[0]}" stroke-width="2.5"/>`;
+    const rows = [["Atlas Mining", "North", 812, 9.1, "good"], ["Blue Harbour", "West", 640, 3.2, "good"], ["Cedar Energy", "East", 522, -2.4, "bad"], ["Delta Freight", "South", 418, 0.3, "neutral"], ["Eastgate Retail", "North", 377, -5.8, "bad"]];
+    rows.forEach(([acc, reg, rev, var_, st], i) => {
+      const ry = hy + 34 + i * 25;
+      s += T(x + 18, ry, acc, { size: 14, fill: p.body, font: p.BF }) + T(x + 250, ry, reg, { size: 14, fill: p.body, font: p.BF }) + T(x + 470, ry, rev + " k", { size: 14, fill: p.ink, font: p.BF, anchor: "end" });
+      s += `<rect x="${x + 490}" y="${ry - 10}" width="${(rev / 812) * 120}" height="11" rx="2" fill="${cs[0]}"/>`;
+      s += T(x + 700, ry, (var_ > 0 ? "+" : "") + var_.toFixed(1) + "%", { size: 14, fill: p[st], font: p.BF, anchor: "end", weight: 600 });
+      s += `<circle cx="${x + w - 24}" cy="${ry - 4}" r="6" fill="${p[st]}"/>`;
+      if (i < rows.length - 1) s += `<line x1="${x + 12}" x2="${x + w - 12}" y1="${ry + 9}" y2="${ry + 9}" stroke="${p.gridline}"/>`;
+    });
+  }
+  return s + "</svg>";
+}
+
+function slideSVG() {
+  const p = palette(), cs = p.cs, n = cs.length;
+  let s = `<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mock slide drawn with your theme"><rect width="1280" height="720" fill="${p.background}"/>`;
+  s += `<rect x="64" y="58" width="56" height="6" fill="${cs[0]}"/>`;
+  s += T(64, 124, "Margin is back above plan", { size: 46, fill: p.ink, font: p.HF, weight: 600 });
+  s += T(64, 164, "Three levers closed the gap in the third quarter", { size: 22, fill: p.body, font: p.BF });
+  const boxes = [["+2.1 pts", "Price rise in three regions"], ["-8%", "Freight cost per order"], ["96%", "Plant uptime, best since 2023"]];
+  boxes.forEach(([big, lab], i) => {
+    const x = 64 + i * 392, y = 200, w = 368, h = 164, fill = cs[i % n], tc = onFill(fill, p);
+    s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${fill}"/>`;
+    s += T(x + 26, y + 80, big, { size: 52, fill: tc, font: p.HF, weight: 600 });
+    s += T(x + 26, y + 124, lab, { size: 20, fill: tc, font: p.BF });
+  });
+  s += T(64, 420, "Gross margin by region, %", { size: 18, fill: p.ink, font: p.HF, weight: 600 });
+  s += legend(1216, 420, [["Actual", cs[0]], ["Plan", cs[1]]], p, true);
+  const regs = [["North", 34.2, 31], ["South", 31.8, 30], ["East", 29.5, 30.5], ["West", 27.1, 26]];
+  const ox = 200, maxw = 900;
+  s += `<line x1="${ox}" x2="${ox}" y1="438" y2="648" stroke="${p.hairline}" stroke-width="1.5"/>`;
+  for (let g = 1; g <= 4; g++) { const gx = ox + (g * maxw) / 4; s += `<line x1="${gx}" x2="${gx}" y1="438" y2="648" stroke="${p.gridline}"/>` + T(gx, 666, g * 10 + "", { size: 13, fill: p.body, font: p.BF, anchor: "middle" }); }
+  regs.forEach(([r, a, pl], i) => {
+    const y = 448 + i * 50;
+    s += T(ox - 16, y + 25, r, { size: 17, fill: p.body, font: p.BF, anchor: "end" });
+    s += `<rect x="${ox}" y="${y + 6}" width="${(a / 40) * maxw}" height="22" rx="2" fill="${cs[0]}"/>`;
+    s += `<rect x="${ox}" y="${y + 31}" width="${(pl / 40) * maxw}" height="9" rx="2" fill="${cs[1]}"/>`;
+    s += T(ox + (a / 40) * maxw + 10, y + 23, a.toFixed(1), { size: 15, fill: p.ink, font: p.BF, weight: 600 });
+  });
+  s += `<line x1="64" x2="1216" y1="684" y2="684" stroke="${p.hairline}"/>`;
+  s += T(64, 706, "Source: finance close, September 2026 (mock data)", { size: 13, fill: p.body, font: p.BF });
+  s += T(1216, 706, "4", { size: 13, fill: p.body, font: p.BF, anchor: "end" });
+  return s + "</svg>";
+}
+
+function renderPreview() {
+  if (view === "pbi") $("#tb-pbi").innerHTML = pbiSVG(); else $("#tb-slide").innerHTML = slideSVG();
+  $("#tb-capt").innerHTML = vision === "normal" ? "Mock data. Every colour, font and line comes from your theme." : "<b>Simulated: " + esc(VISION[vision].name) + " (" + esc(VISION[vision].who) + ").</b> The downloads are not affected.";
+}
+
+$$(".seg [data-view]").forEach((b) => b.addEventListener("click", () => {
+  view = b.dataset.view;
+  $$(".seg [data-view]").forEach((x) => { x.classList.toggle("on", x === b); x.setAttribute("aria-selected", x === b); });
+  $("#tb-pbi").hidden = view !== "pbi"; $("#tb-slide").hidden = view !== "slide";
+  renderPreview();
+}));
+$("#tb-vision").addEventListener("change", (e) => { vision = e.target.value; renderPreview(); });
+
+/* ---------------------------------------------------------------- checks */
+
+function grade(r) {
+  const g = tk.wcagGrade(r);
+  return `<span class="grade ${g === "Fail" ? "f" : g === "AA large" ? "w" : ""}">${g}</span>`;
+}
+
+function renderChecks() {
+  const v = [];
+  // text contrast
+  const pairs = [["ink", "background", "Titles on the page", 3], ["body", "background", "Body text on the page", 4.5], ["ink", "panel", "Titles on a card", 3], ["body", "panel", "Body text on a card", 4.5]];
+  $("#tb-contrast").innerHTML = pairs.map(([fg, bg, what]) => {
+    const r = tk.contrast(B[fg], B[bg]);
+    return `<div class="crow"><span class="sample" style="color:${B[fg]};background:${B[bg]}">Aa 12</span><span class="what">${what}</span><span class="ratio">${r.toFixed(1)}:1</span>${grade(r)}</div>`;
+  }).join("");
+  const bodyBg = tk.contrast(B.body, B.background), bodyPn = tk.contrast(B.body, B.panel), inkBg = tk.contrast(B.ink, B.background);
+  if (bodyBg < 4.5) v.push(["bad", `Body text is ${bodyBg.toFixed(1)}:1 on the background. Small labels need 4.5:1: make the body text ${isDark() ? "lighter" : "darker"}.`]);
+  else if (bodyPn < 4.5) v.push(["", `Body text is ${bodyPn.toFixed(1)}:1 on the panel colour, below 4.5:1. Make the panel closer to the background, or the body text ${isDark() ? "lighter" : "darker"}.`]);
+  if (inkBg < 3) v.push(["bad", `Titles are ${inkBg.toFixed(1)}:1 on the background. Even large text needs 3:1.`]);
+
+  // data colours on background
+  const weak = [];
+  $("#tb-oncanvas").innerHTML = `<div class="oc" style="background:${B.background};padding:10px;border-radius:10px;border:1px solid ${B.hairline}">` + B.colors.map((c, i) => {
+    const r = tk.contrast(c, B.background); if (r < 3) weak.push(i + 1);
+    return `<div class="ocell"><svg width="46" height="22" viewBox="0 0 46 22"><polyline points="2,18 14,9 26,13 44,3" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/></svg><span style="color:${B.body}">${i + 1}: ${r.toFixed(1)}:1</span>${r < 3 ? '<span class="grade w">thin lines</span>' : '<span class="grade">OK</span>'}</div>`;
+  }).join("") + "</div>";
+  if (weak.length) v.push(["", `${weak.length > 1 ? "Colours" : "Colour"} ${listAnd(weak)} ${weak.length > 1 ? "have" : "has"} less than 3:1 against the background: fine as a bar or a filled area, weak as a thin line or a small dot. Use ${weak.length > 1 ? "them" : "it"} for fills, or ${isDark() ? "lighten" : "darken"} ${weak.length > 1 ? "them" : "it"}.`]);
+
+  // colour vision
+  const cp = tk.closestPairs(B.colors);
+  const flagged = [];
+  $("#tb-cvd").innerHTML = `<div class="cvd">` + ["normal", "deutan", "protan", "tritan", "achroma"].map((k) => {
+    const best = cp[k], d = best.d, sim = B.colors.map((c) => (k === "normal" ? c : tk.simulate(c, k)));
+    const lvl = d < 5 ? "f" : d < 10 ? "w" : "";
+    if (d < 10) flagged.push([k, best]);
+    return `<div class="cv"><div><b>${VISION[k].name}</b><small>${VISION[k].who}</small></div>
+      <div class="cvstrip">${sim.map((c, i) => `<i style="background:${c}" class="${d < 10 && (i === best.i || i === best.j) ? "hit" : ""}" title="${i + 1}: ${c}"><em>${i + 1}</em></i>`).join("")}</div>
+      <div class="cvr">${best.i + 1} and ${best.j + 1}: ${d.toFixed(1)}<br><span class="grade ${lvl}">${d < 5 ? "look the same" : d < 10 ? "close" : "clear"}</span></div></div>`;
+  }).join("") + "</div>";
+  for (const [k, best] of flagged) {
+    const a = ord(best.i + 1), b = ord(best.j + 1), same = best.d < 5;
+    let line;
+    if (k === "normal") line = `Your ${a} and ${b} colours are ${same ? "almost the same" : "close"} for every reader (distance ${best.d.toFixed(1)}). Change one, or move them apart in the list.`;
+    else if (k === "achroma") line = `In a black-and-white print your ${a} and ${b} colours turn into ${same ? "the same grey" : "nearly the same grey"}. Make one lighter or darker.`;
+    else line = `Your ${a} and ${b} colours look ${same ? "the same" : "alike"} to ${VISION[k].who.split(", ")[1]} (${VISION[k].name.toLowerCase()}). Change one, or never put them side by side.`;
+    v.push([same ? "bad" : "", line]);
+  }
+  if (!v.length) v.push(["ok", `All checks pass: text reads well on the page and on cards, and the ${B.colors.length} series stay apart for every type of colour vision tested.`]);
+  $("#tb-verdicts").innerHTML = v.map(([cls, t]) => `<li class="${cls}">${esc(t)}</li>`).join("");
+  // flag rows in the editor
+  $$("#tb-colors li").forEach((li) => {
+    const i = +li.dataset.i, hit = flagged.some(([, bst]) => bst.i === i || bst.j === i);
+    li.querySelector(".cn").style.color = hit ? "var(--warn)" : "";
+    li.querySelector(".cn").title = hit ? "Close to another colour, see the checks" : i >= 6 ? "Power BI and Python only, Office keeps 6" : "Series " + (i + 1);
+  });
+}
+
+/* ---------------------------------------------------------------- downloads */
+
+const FILE_INFO = [
+  { idx: 0, app: "Power BI", desc: "Report theme: data colours, text classes, axes, gridlines, KPI colours.", type: "application/json" },
+  { idx: 1, app: "PowerPoint, Excel, Word", desc: "Office theme with slide master: 6 accents, text colours, fonts.", type: "application/vnd.ms-officetheme", view: 2 },
+  { idx: 3, app: "matplotlib", desc: "Style sheet: colour cycle, background, grid, spines, fonts.", type: "text/plain" },
+  { idx: 4, app: "plotly", desc: "Template: colourway, fonts, axes, colour scales.", type: "application/json" },
+  { idx: 5, app: "Vega-Lite", desc: "Config object: category range, axes, legend, title.", type: "application/json" },
+  { idx: 6, app: "CSS", desc: "Custom properties --theme-* for every role and series.", type: "text/css" },
+  { idx: 7, app: "brand.json", desc: "Your inputs. Drop it back here to edit this theme later.", type: "application/json" },
+];
+let FILES = [];
+const base = (n) => n.split("/").pop();
+const bytes = (d) => (typeof d === "string" ? new TextEncoder().encode(d).length : d.length);
+
+function renderDownloads() {
+  FILES = tk.allFiles(B);
+  const s = tk.slug(B.name), total = FILES.reduce((a, f) => a + bytes(f.data), 0);
+  $("#tb-zipname").textContent = s + "-theme-pack.zip";
+  $("#tb-zipsize").textContent = FILES.length + " files, " + fmtB(total) + ", with a README that says which file goes where";
+  $("#tb-files").innerHTML = FILE_INFO.map((fi, k) => {
+    const f = FILES[fi.idx];
+    return `<div class="file${k === viewFile ? " on" : ""}"><b>${fi.app}</b><span class="fnm">${esc(base(f.name))} · ${fmtB(bytes(f.data))}</span><span class="fdesc">${fi.desc}</span>
+      <div class="btnrow"><button type="button" class="btn2 small" data-dl="${k}">Download</button><button type="button" class="btn2 small quiet" data-view="${k}">View</button></div></div>`;
+  }).join("");
+  const fi = FILE_INFO[viewFile], shown = FILES[fi.view ?? fi.idx];
+  $("#tb-vname").textContent = fi.view ? base(FILES[fi.idx].name) + " is a zip; this is the theme1.xml inside it" : base(shown.name);
+  $("#tb-view").textContent = shown.data;
+  const names = { pbi: base(FILES[0].name), thmx: base(FILES[1].name), mpl: base(FILES[3].name), plotly: base(FILES[4].name), vega: base(FILES[5].name), css: base(FILES[6].name) };
+  for (const [k, n] of Object.entries(names)) $$(".fn-" + k).forEach((el) => { el.textContent = n; });
+}
+
+$("#tb-files").addEventListener("click", (e) => {
+  const d = e.target.closest("[data-dl]"), vw = e.target.closest("[data-view]");
+  if (d) { const fi = FILE_INFO[+d.dataset.dl], f = FILES[fi.idx]; tk.download(base(f.name), f.data, fi.type); status("Saved " + base(f.name) + ". The clicks to apply it are under How to apply."); }
+  if (vw) { viewFile = +vw.dataset.view; renderDownloads(); }
+});
+$("#tb-zip").addEventListener("click", () => {
+  const name = tk.slug(B.name) + "-theme-pack.zip";
+  tk.download(name, tk.zip(tk.allFiles(B)), "application/zip");
+  status("Saved " + name + ". Unzip it: one folder per tool, and a README.");
+});
+$("#tb-copy").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText($("#tb-view").textContent); $("#tb-copy").textContent = "Copied"; setTimeout(() => ($("#tb-copy").textContent = "Copy"), 1400); } catch (e) { /* ignore */ }
+});
+
+/* ---------------------------------------------------------------- fonts for the preview */
+
+const askedFonts = new Set();
+function loadFonts() {
+  for (const f of [B.fontHeading, B.fontBody]) {
+    const k = f.toLowerCase();
+    if (OFFICE_ONLY.has(k) || askedFonts.has(k) || !/^[A-Za-z0-9 ]{2,40}$/.test(f)) continue;
+    askedFonts.add(k);
+    const l = document.createElement("link"); l.rel = "stylesheet";
+    l.href = "https://fonts.googleapis.com/css2?family=" + encodeURIComponent(f.trim()).replace(/%20/g, "+") + ":wght@400;600&display=swap";
+    l.onload = () => document.fonts && document.fonts.ready.then(renderPreview);
+    document.head.appendChild(l);
+  }
+}
+
+/* ---------------------------------------------------------------- update loop */
+
+let slowTimer = 0, fontTimer = 0;
+function update() {
+  renderPreview();
+  renderChecks();
+  writeHash();
+  clearTimeout(slowTimer); slowTimer = setTimeout(renderDownloads, 120);
+  clearTimeout(fontTimer); fontTimer = setTimeout(loadFonts, 700);
+}
+
+const init = initialBrand();
+{ // optional ?view=slide and ?vision=deutan, so a link can open straight on a check
+  const q = new URLSearchParams(location.search);
+  if (q.get("view") === "slide") { view = "slide"; $$(".seg [data-view]").forEach((x) => { x.classList.toggle("on", x.dataset.view === "slide"); x.setAttribute("aria-selected", x.dataset.view === "slide"); }); $("#tb-pbi").hidden = true; $("#tb-slide").hidden = false; }
+  if (VISION[q.get("vision")]) { vision = q.get("vision"); $("#tb-vision").value = vision; }
+}
+setBrand(init.brand, { preset: init.preset });
+renderDownloads();
+if (init.msg) status(init.msg);
+window.addEventListener("hashchange", () => {
+  const h = new URLSearchParams(location.hash.slice(1));
+  if (h.get(KEYS.colors) && h.toString() !== toParams(B).toString()) { setBrand(fromParams(h)); status("Loaded the theme from the link."); }
+});
+</script>
