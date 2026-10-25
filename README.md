@@ -1,15 +1,36 @@
-# theme-kit
+# theme-kit: Power BI Theme Builder and Theme Check
 
-Enter your brand colours once and get matching theme files for **Power BI, PowerPoint, Excel, Word, matplotlib, plotly, Vega-Lite and CSS**. Then check any theme for readability and colour-blind safety, and fix it in one click.
+**Enter your brand colours once and get matching theme files for Power BI, PowerPoint, Excel, Word, matplotlib, plotly, Vega-Lite and CSS. Then check any theme for readability and colour-blind safety, and fix it in one click.**
 
-Use it in the browser, no install:
+[![Theme Builder](https://img.shields.io/badge/Open-Theme_Builder-0F2A26?style=for-the-badge)](https://babarda.com/tools/theme-builder/)
+[![Theme Check](https://img.shields.io/badge/Open-Theme_Check-008080?style=for-the-badge)](https://babarda.com/tools/theme-check/)
+[![GitHub Pages mirror](https://img.shields.io/badge/Mirror-GitHub_Pages-5E7C77?style=for-the-badge)](https://babarda.github.io/theme-kit/app/)
+![No install](https://img.shields.io/badge/install-none-F2A900?style=for-the-badge)
+![MIT](https://img.shields.io/badge/licence-MIT-5E7C77?style=for-the-badge)
 
-- **[Theme Builder](https://babarda.com/tools/theme-builder/)**: pick colours or one of 16 ready-made palettes, see a live Power BI page and slide, download one zip.
-- **[Theme Check](https://babarda.com/tools/theme-check/)**: drop a Power BI theme, a `.thmx` or any `.pptx`, `.xlsx` or `.docx`, get a score out of 100, each problem with its fix, and a corrected theme.
+![How it works](docs/how-it-works.svg)
 
 Everything runs in your browser. No file is uploaded.
 
-![Theme Builder](docs/theme-builder-desktop.png)
+## 1. Start from a look, your hex codes or a file
+
+16 ready-made looks, each built for one kind of report. Click one, paste your brand's hex codes, or drop a theme you already use.
+
+![16 presets](docs/theme-builder-presets.png)
+
+## 2. See it live, read what the checks found
+
+A Power BI page and a slide redraw as you type. Each check shows the colours involved, as a colour-blind reader sees them, and one sentence on what to change.
+
+![Live preview and checks](docs/theme-builder-checks.png)
+
+## Run it yourself
+
+| You want to | Do this |
+|---|---|
+| Just use it | Open the [Theme Builder](https://babarda.com/tools/theme-builder/) or the [Theme Check](https://babarda.com/tools/theme-check/). |
+| Run it on your PC | Download this repo, then `npx serve app` and open the address it prints. (`file://` blocks the modules, so double-click does not work.) |
+| Use the engine in code | See "Use the engine in your own code" below. |
 
 ## What you get from one brand
 
@@ -77,6 +98,8 @@ node examples/make-pack.mjs kata     # one of the 16 presets
 ## Repository
 
 ```
+app/index.html        Theme Builder, runnable as is (CSS inlined)
+app/theme-check.html  Theme Check, runnable as is
 src/themekit.js       colour maths, file generators, zip reader and writer, file loaders
 src/check.js          the audit and the fixer
 presets/presets.json  16 ready-made brands
@@ -87,6 +110,7 @@ docs/                 screenshots
 
 ## Related
 
+- [Power BI Layout Studio](https://github.com/babarda/powerbi-layout-studio): design the page frame and card layout, download a `.pbip` with working navigation
 - [Power BI project-controls templates](https://github.com/babarda/powerbi-project-templates): S-curve, milestones, RACI, 3-week look-ahead
 - [Slide templates](https://babarda.com/templates/), each slide tagged by work area and palette, with a link that builds a theme from its colours
 

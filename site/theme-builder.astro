@@ -18,7 +18,7 @@ const ff = (f: string) => `'${f}', 'Segoe UI', system-ui, sans-serif`;
     <div class="head">
       <p class="eyebrow"><a href="/tools/">Tools</a></p>
       <h1>Theme Builder</h1>
-      <p class="dek">Enter your brand colours once and download matching themes for Power BI, PowerPoint, Excel, Word, matplotlib, plotly, Vega-Lite and CSS. A live report page and slide show the result, and the checks tell you which colours clash before your readers do.</p>
+      <p class="dek">Enter your brand colours once and download matching themes for Power BI, PowerPoint, Excel, Word, matplotlib, plotly, Vega-Lite and CSS. A live report page and slide show the result, and the checks tell you which colours clash before your readers do. <a href="https://github.com/babarda/theme-kit">Source on GitHub</a> (MIT).</p>
     </div>
 
     <ol class="steps">
@@ -314,13 +314,18 @@ vegaEmbed("#chart", spec, { config });`}</code></pre></div>
   /* checks */
   .tb .checks{ margin:22px 0 0; }
   .tb .sub{ font-family:var(--serif); font-size:1.2rem; font-weight:600; color:#101B18; margin:0 0 10px; }
-  .tb .verdicts{ list-style:none; padding:0; margin:0 0 14px; display:flex; flex-direction:column; gap:6px; }
-  .tb .verdicts li{ padding:10px 14px 10px 40px; border-radius:10px; font-size:.93rem; line-height:1.45; position:relative; background:#FFF8EC; border:1px solid #F0DDB8; color:#4B3A12; }
-  .tb .verdicts li::before{ content:"!"; position:absolute; left:13px; top:10px; width:18px; height:18px; border-radius:50%; background:var(--warn); color:#fff; font-size:.72rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
-  .tb .verdicts li.bad{ background:#FFF3F1; border-color:#F2C9C1; color:#5A1E14; }
-  .tb .verdicts li.bad::before{ background:var(--fail); }
-  .tb .verdicts li.ok{ background:#F1FAF7; border-color:#C4E6DD; color:#10372F; }
-  .tb .verdicts li.ok::before{ content:"\2713"; background:var(--pass); }
+  .tb .verdicts{ list-style:none; padding:0; margin:0 0 18px; border-top:1px solid var(--hair-2); }
+  .tb .verdicts li{ display:grid; grid-template-columns:48px 118px 1fr; gap:14px; align-items:center; padding:12px 0; border-bottom:1px solid var(--hair); font-size:.93rem; line-height:1.45; color:var(--body); }
+  .tb .verdicts .vtag{ font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--warn); }
+  .tb .verdicts li.bad .vtag{ color:var(--fail); }
+  .tb .verdicts li.ok .vtag{ color:var(--pass); }
+  .tb .verdicts .vsws{ display:flex; flex-wrap:wrap; align-items:center; gap:4px; }
+  .tb .verdicts .vsws small{ flex-basis:100%; font-family:var(--mono); font-size:.58rem; color:var(--faint); }
+  .tb .verdicts .vbg{ display:inline-flex; gap:4px; padding:4px; border:1px solid var(--hair-2); }
+  .tb .verdicts .vsw{ position:relative; width:26px; height:26px; display:inline-flex; align-items:flex-end; justify-content:flex-start; }
+  .tb .verdicts .vsw em{ font-style:normal; font-family:var(--mono); font-size:.55rem; line-height:1; padding:1px 2px; background:rgba(255,255,255,.85); color:#101B18; }
+  .tb .verdicts .vtext{ width:auto; padding:0 8px; align-items:center; font-weight:600; font-size:.85rem; border:1px solid var(--hair-2); }
+  @media (max-width:640px){ .tb .verdicts li{ grid-template-columns:48px 1fr; } .tb .verdicts .vtx{ grid-column:1 / -1; } }
   .tb .cgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .tb .cbox{ background:var(--panel); border:1px solid var(--hair-2); border-radius:14px; padding:14px 16px; min-width:0; }
   .tb .cbox.wide{ margin-top:12px; }
@@ -858,6 +863,9 @@ function grade(r) {
   return `<span class="grade ${g === "Fail" ? "f" : g === "AA large" ? "w" : ""}">${g}</span>`;
 }
 
+const swText = (fg, bg) => `<span class="vsw vtext" style="color:${fg};background:${bg}">Aa</span>`;
+const swCols = (idx, mode) => idx.map((i) => `<span class="vsw" style="background:${mode && mode !== "normal" ? tk.simulate(B.colors[i], mode) : B.colors[i]}"><em>${i + 1}</em></span>`).join("");
+
 function renderChecks() {
   const v = [];
   // text contrast
@@ -867,9 +875,9 @@ function renderChecks() {
     return `<div class="crow"><span class="sample" style="color:${B[fg]};background:${B[bg]}">Aa 12</span><span class="what">${what}</span><span class="ratio">${r.toFixed(1)}:1</span>${grade(r)}</div>`;
   }).join("");
   const bodyBg = tk.contrast(B.body, B.background), bodyPn = tk.contrast(B.body, B.panel), inkBg = tk.contrast(B.ink, B.background);
-  if (bodyBg < 4.5) v.push(["bad", `Body text is ${bodyBg.toFixed(1)}:1 on the background. Small labels need 4.5:1: make the body text ${isDark() ? "lighter" : "darker"}.`]);
-  else if (bodyPn < 4.5) v.push(["", `Body text is ${bodyPn.toFixed(1)}:1 on the panel colour, below 4.5:1. Make the panel closer to the background, or the body text ${isDark() ? "lighter" : "darker"}.`]);
-  if (inkBg < 3) v.push(["bad", `Titles are ${inkBg.toFixed(1)}:1 on the background. Even large text needs 3:1.`]);
+  if (bodyBg < 4.5) v.push(["bad", `Body text is ${bodyBg.toFixed(1)}:1 on the background. Small labels need 4.5:1, so make the body text ${isDark() ? "lighter" : "darker"}.`, swText(B.body, B.background)]);
+  else if (bodyPn < 4.5) v.push(["", `Body text is ${bodyPn.toFixed(1)}:1 on cards, below 4.5:1. Bring the panel closer to the background, or make the body text ${isDark() ? "lighter" : "darker"}.`, swText(B.body, B.panel)]);
+  if (inkBg < 3) v.push(["bad", `Titles are ${inkBg.toFixed(1)}:1 on the background. Large text needs 3:1.`, swText(B.ink, B.background)]);
 
   // data colours on background
   const weak = [];
@@ -877,7 +885,7 @@ function renderChecks() {
     const r = tk.contrast(c, B.background); if (r < 3) weak.push(i + 1);
     return `<div class="ocell"><svg width="46" height="22" viewBox="0 0 46 22"><polyline points="2,18 14,9 26,13 44,3" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/></svg><span style="color:${B.body}">${i + 1}: ${r.toFixed(1)}:1</span>${r < 3 ? '<span class="grade w">thin lines</span>' : '<span class="grade">OK</span>'}</div>`;
   }).join("") + "</div>";
-  if (weak.length) v.push(["", `${weak.length > 1 ? "Colours" : "Colour"} ${listAnd(weak)} ${weak.length > 1 ? "have" : "has"} less than 3:1 against the background: fine as a bar or a filled area, weak as a thin line or a small dot. Use ${weak.length > 1 ? "them" : "it"} for fills, or ${isDark() ? "lighten" : "darken"} ${weak.length > 1 ? "them" : "it"}.`]);
+  if (weak.length) v.push(["", `${weak.length > 1 ? "Colours" : "Colour"} ${listAnd(weak)} ${weak.length > 1 ? "are" : "is"} under 3:1 on the background. Bars and areas read fine; thin lines and dots fade. Keep ${weak.length > 1 ? "them" : "it"} for fills, or ${isDark() ? "lighten" : "darken"} ${weak.length > 1 ? "them" : "it"}.`, `<span class="vbg" style="background:${B.background}">${swCols(weak.map((n) => n - 1))}</span>`]);
 
   // colour vision
   const cp = tk.closestPairs(B.colors);
@@ -893,13 +901,13 @@ function renderChecks() {
   for (const [k, best] of flagged) {
     const a = ord(best.i + 1), b = ord(best.j + 1), same = best.d < 5;
     let line;
-    if (k === "normal") line = `Your ${a} and ${b} colours are ${same ? "almost the same" : "close"} for every reader (distance ${best.d.toFixed(1)}). Change one, or move them apart in the list.`;
-    else if (k === "achroma") line = `In a black-and-white print your ${a} and ${b} colours turn into ${same ? "the same grey" : "nearly the same grey"}. Make one lighter or darker.`;
-    else line = `Your ${a} and ${b} colours look ${same ? "the same" : "alike"} to ${VISION[k].who.split(", ")[1]} (${VISION[k].name.toLowerCase()}). Change one, or never put them side by side.`;
-    v.push([same ? "bad" : "", line]);
+    if (k === "normal") line = `Colours ${best.i + 1} and ${best.j + 1} are ${same ? "almost the same" : "close"} for every reader (ΔE ${best.d.toFixed(1)}). Change one, or move them apart in the list.`;
+    else if (k === "achroma") line = `Colours ${best.i + 1} and ${best.j + 1} print as ${same ? "the same grey" : "nearly the same grey"} in black and white. Make one lighter or darker.`;
+    else line = `Colours ${best.i + 1} and ${best.j + 1} look ${same ? "the same" : "alike"} with ${VISION[k].name.toLowerCase()} (${VISION[k].who.split(", ")[1]}). Change one, or keep them apart.`;
+    v.push([same ? "bad" : "", line, swCols([best.i, best.j], k), k === "normal" ? "" : VISION[k].name]);
   }
-  if (!v.length) v.push(["ok", `All checks pass: text reads well on the page and on cards, and the ${B.colors.length} series stay apart for every type of colour vision tested.`]);
-  $("#tb-verdicts").innerHTML = v.map(([cls, t]) => `<li class="${cls}">${esc(t)}</li>`).join("");
+  if (!v.length) v.push(["ok", `Text reads on the page and on cards, and the ${B.colors.length} series stay apart for every colour vision tested.`, swCols(B.colors.map((_, i) => i))]);
+  $("#tb-verdicts").innerHTML = v.map(([cls, t, sw, seen]) => `<li class="${cls}"><span class="vtag">${cls === "bad" ? "Fix" : cls === "ok" ? "Pass" : "Check"}</span><span class="vsws">${sw || ""}${seen ? `<small>as seen with ${esc(seen.toLowerCase())}</small>` : ""}</span><span class="vtx">${esc(t)}</span></li>`).join("");
   // flag rows in the editor
   $$("#tb-colors li").forEach((li) => {
     const i = +li.dataset.i, hit = flagged.some(([, bst]) => bst.i === i || bst.j === i);

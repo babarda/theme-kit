@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Theme Check: audit a Power BI or Office theme for contrast and colour blindness · Badr Abardazzou</title><meta name="description" content="Drop a Power BI theme JSON, an Office .thmx or any PowerPoint, Excel or Word file and get a report card: text contrast against WCAG, chart colours against the background, series that collide for colour-blind readers, missing roles, fonts your viewers do not have. One click builds a corrected theme. Free, nothing uploaded."><link rel="canonical" href="https://babarda.com/tools/theme-check/"><link rel="icon" type="image/svg+xml" href="https://babarda.com/favicon.svg"><link rel="alternate" type="application/rss+xml" title="Papers by Badr Abardazzou" href="https://babarda.com/rss.xml"><meta property="og:title" content="Theme Check: audit a Power BI or Office theme for contrast and colour blindness · Badr Abardazzou"><meta property="og:description" content="Drop a Power BI theme JSON, an Office .thmx or any PowerPoint, Excel or Word file and get a report card: text contrast against WCAG, chart colours against the background, series that collide for colour-blind readers, missing roles, fonts your viewers do not have. One click builds a corrected theme. Free, nothing uploaded."><meta property="og:url" content="https://babarda.com/tools/theme-check/"><meta property="og:type" content="website"><meta property="og:site_name" content="Badr Abardazzou"><meta property="og:image" content="https://babarda.com/og-default.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Theme Check: audit a Power BI or Office theme for contrast and colour blindness · Badr Abardazzou"><meta name="twitter:description" content="Drop a Power BI theme JSON, an Office .thmx or any PowerPoint, Excel or Word file and get a report card: text contrast against WCAG, chart colours against the background, series that collide for colour-blind readers, missing roles, fonts your viewers do not have. One click builds a corrected theme. Free, nothing uploaded."><meta name="twitter:image" content="https://babarda.com/og-default.png"><meta name="author" content="Badr Abardazzou"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Badr Abardazzou","jobTitle":"Information Designer, Project Controls","description":"Information designer working in Project Controls on large-scale Energy & Mining EPC projects. Building the Open Visualization Protocol (OVP), an open, deterministic standard for information design.","url":"https://babarda.com","sameAs":["https://www.linkedin.com/in/badr-abardazzou-4a460938/","https://github.com/babarda"],"knowsAbout":["Information Design","Project Controls","EPC Projects","Data Visualization","AI Agents"]}</script><style>.pa.bcg{--serif:"Source Serif 4", Georgia, serif;--sans:"Figtree", "Segoe UI", system-ui, sans-serif;--mono:"Figtree", "Segoe UI", system-ui, sans-serif;font-family:var(--sans);font-variant-numeric:tabular-nums}.pa.bcg h1{letter-spacing:-.4px;font-weight:600}.pa.bcg .dek{font-family:var(--sans);font-style:normal;font-weight:400;font-size:1.08rem;line-height:1.55}.pa.bcg .eyebrow{font-weight:600;letter-spacing:.12em}.pa{--panel:#FBFCFB;--body:#293a35;--pass:#0E7C6B;--fail:#C0402E;--na:#8A929C;--warn:#A8741A;--info:#2F6FA8;color:var(--body);font-size:1.02rem;line-height:1.6}.pa a{color:var(--teal-ink);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;text-decoration-color:#0e9d8a66}.pa a:hover{color:var(--teal);text-decoration-color:var(--teal)}.tc .head{padding:clamp(30px,5vw,52px) 0 clamp(14px,2vw,22px)}.tc .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-ink);margin:0 0 20px}.tc .eyebrow:before{content:"";width:26px;height:1px;background:var(--teal)}.tc .eyebrow a{color:inherit;text-decoration:none}.tc h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,5vw,3.1rem);line-height:1.08;letter-spacing:-.7px;margin:0;color:#101b18}.tc .dek{color:var(--mid);margin:18px 0 0;max-width:56ch}.tc .drop{margin:18px 0 0;border:1.5px dashed var(--hair-2);border-radius:16px;background:var(--panel);padding:30px 22px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;min-height:120px;display:flex;flex-direction:column;justify-content:center}.tc .drop.over{border-color:var(--teal);background:var(--teal-wash)}.tc .drop.ok{border-style:solid;border-color:var(--pass);background:#f2faf8}.tc .drop .dl{margin:0;font-size:1.02rem;color:var(--body)}.tc .drop .dl b{color:#101b18}.tc .drop .dl2{margin:6px 0 0;font-size:.86rem;color:var(--mid)}.tc .drop .fn{margin:8px 0 0;font-size:.74rem;color:var(--teal-ink);word-break:break-all}.tc .drop button{font:inherit;font-weight:600;border:none;background:none;color:var(--teal-ink);cursor:pointer;text-decoration:underline;padding:0}.tc .examples{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 10px;margin:14px 0 0}.tc .exk{font-size:.84rem;color:var(--mid)}.tc .exb{font:inherit;font-size:.86rem;font-weight:600;display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:99px;border:1px solid var(--hair-2);background:#fff;color:#101b18;cursor:pointer}.tc .exb:hover{border-color:var(--teal-ink);color:var(--teal-ink)}.tc .exb i{width:26px;height:10px;border-radius:3px;display:inline-block}.tc .dh{margin:12px 0 0;font-size:.74rem;letter-spacing:.02em;color:var(--faint);text-align:center}.tc .err{color:#c0402e;font-size:.88rem;margin-top:8px;text-align:center}#results.hidden,.tc .hidden{display:none}.tc .score{display:grid;grid-template-columns:auto 1fr auto;gap:18px 24px;align-items:center;margin:26px 0 0;padding:20px 22px;border-radius:16px;background:#101b18;color:#fff}.tc .ring{width:104px;height:104px}.tc .ring svg{display:block}.tc .sc-k{margin:0;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#9fc7be;font-weight:600}.tc .sc-name{margin:4px 0 0;font-family:var(--serif);font-size:1.5rem;line-height:1.2;font-weight:600;color:#fff;word-break:break-word}.tc .sc-verdict{margin:6px 0 0;font-family:var(--serif);font-size:1.12rem;line-height:1.4;color:#e6f2ef}.tc .sc-tally{margin:8px 0 0;font-size:.8rem;color:#b7ccc7;display:flex;flex-wrap:wrap;gap:4px 14px}.tc .sc-tally b{font-weight:600}.tc .sc-act{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.tc .sc-hint{font-size:.72rem;color:#9fb5b0;text-align:right}.tc .score .dlbtn{background:#8fe3d3;color:#0b2a24;border-color:#8fe3d3}.tc .score .dlbtn:hover{background:#b4eee3}.tc .dlbtn{font:inherit;font-size:.92rem;font-weight:600;background:var(--teal-ink);color:#fff;border:1px solid var(--teal-ink);border-radius:10px;padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;text-align:center}.tc a.dlbtn{color:#fff;text-decoration:none}.tc .dlbtn:hover{background:#0b6a5b}.tc .dlbtn.line,.tc a.dlbtn.line{background:#fff;color:var(--teal-ink)}.tc .dlbtn.line:hover{background:var(--teal-wash)}.tc .linkbtn{font:inherit;font-size:.88rem;font-weight:600;border:none;background:none;color:var(--teal-ink);text-decoration:underline;cursor:pointer;padding:6px 4px}.tc .fix{margin:14px 0 0;padding:18px 22px;border:1.5px solid var(--teal);border-radius:16px;background:#f2faf8}.tc .fix-head{display:flex;gap:20px;align-items:center;flex-wrap:wrap}.tc .fix-head b{font-family:var(--serif);font-size:1.2rem;color:#101b18}.tc .fix-head p{margin:2px 0 0;font-size:.86rem;color:var(--mid)}.tc .fix-scores{display:flex;align-items:center;gap:8px}.tc .fs{font-family:var(--serif);font-size:1.7rem;font-weight:600;color:var(--faint);line-height:1}.tc .fs.after{color:var(--pass)}.tc .fs small{font-size:.9rem;margin-left:3px}.tc .fa{color:var(--faint);font-size:1.3rem}.tc .fix-strip{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 0;padding:10px;border-radius:10px;border:1px solid var(--hair-2)}.tc .fix-strip span{flex:1 1 60px;min-width:56px;height:38px;border-radius:6px;font-size:.66rem;font-weight:600;display:flex;align-items:flex-end;padding:4px 6px}.tc .fix-list{margin:12px 0 0;padding:0 0 0 18px;font-size:.88rem;line-height:1.55}.tc .fix-list li{margin:2px 0}.tc .fix-btns{display:flex;flex-wrap:wrap;gap:8px 10px;margin:14px 0 0;align-items:center}.tc .sec{font-family:var(--serif);font-weight:600;font-size:1.3rem;margin:34px 0 10px;color:#101b18}.tc .secnote{font-family:var(--sans);font-weight:400;font-size:.82rem;color:var(--faint);margin-left:8px}.tc .pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;padding:12px;border-radius:14px;border:1px solid var(--hair-2)}.tc .sw{border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.06);background:#fff}.tc .sw .chip{height:54px;position:relative}.tc .sw .chip em{position:absolute;left:7px;top:5px;font-style:normal;font-size:.7rem;font-weight:700}.tc .sw .meta{padding:5px 8px 6px;font-size:.72rem;line-height:1.35;color:var(--body)}.tc .sw .meta b{display:block;font-size:.78rem;color:#101b18;letter-spacing:.02em}.tc .sw .meta .lo{color:var(--fail);font-weight:600}.tc .sw.dup{outline:2px solid var(--fail);outline-offset:1px}.tc .roles{display:flex;flex-wrap:wrap;gap:6px 8px;margin:10px 0 0}.tc .role{display:inline-flex;align-items:center;gap:7px;padding:4px 10px 4px 5px;border-radius:99px;border:1px solid var(--hair-2);background:#fff;font-size:.78rem}.tc .role i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(0,0,0,.15);display:inline-block}.tc .role.miss{border-style:dashed;color:var(--faint)}.tc .role.miss i{background:repeating-linear-gradient(45deg,#fff 0 3px,#ddd 3px 6px)!important}.tc .role small{color:var(--faint)}.tc .checks{border:1px solid var(--hair-2);border-radius:14px;overflow:hidden}.tc .ck{display:grid;grid-template-columns:30px 1fr;gap:4px 14px;padding:14px 18px;border-top:1px solid var(--hair);background:#fff}.tc .ck:first-child{border-top:none}.tc .ck>:not(.ic){grid-column:2;min-width:0}.tc .ck .ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.82rem;font-weight:700;grid-row:1 / span 3;margin-top:1px}.tc .ck.pass .ic{background:var(--pass)}.tc .ck.warn .ic{background:var(--warn)}.tc .ck.fail .ic{background:var(--fail)}.tc .ck.na .ic{background:var(--na)}.tc .ck.info .ic{background:var(--info)}.tc .ck-t{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}.tc .ck-t b{color:#101b18;font-size:.98rem}.tc .tag{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700}.tc .ck.pass .tag{color:var(--pass)}.tc .ck.warn .tag{color:var(--warn)}.tc .ck.fail .tag{color:var(--fail)}.tc .ck.na .tag{color:var(--na)}.tc .ck.info .tag{color:var(--info)}.tc .ck p{margin:0;font-size:.9rem;line-height:1.5}.tc .ck .fx{color:var(--mid)}.tc .ck .fx b{color:var(--body);font-weight:600}.tc .pairs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}.tc .pair{display:inline-flex;align-items:center;gap:8px;border-radius:8px;border:1px solid var(--hair-2);padding:3px 9px 3px 3px;font-size:.74rem;background:#fff}.tc .pair span.s{border-radius:6px;padding:2px 8px;font-weight:600;font-size:.84rem}.tc .pair .bad{color:var(--fail);font-weight:600}.tc .cvd{display:grid;gap:10px}.tc .cv{display:grid;grid-template-columns:190px 1fr;gap:6px 16px;align-items:center}.tc .cv-l b{display:block;font-size:.92rem;color:#101b18}.tc .cv-l small{display:block;font-size:.74rem;color:var(--faint);line-height:1.35}.tc .cv-l .d{font-size:.74rem;font-weight:600}.tc .cv-l .d.fail{color:var(--fail)}.tc .cv-l .d.warn{color:var(--warn)}.tc .cv-l .d.pass{color:var(--pass)}.tc .strip{display:flex;height:40px;border-radius:10px;overflow:hidden;border:1px solid var(--hair-2)}.tc .strip span{flex:1;position:relative}.tc .strip span.hit{box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px #101b18}.tc .strip span em{position:absolute;left:5px;bottom:3px;font-style:normal;font-size:.62rem;font-weight:700}.tc .vis{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}.tc .vis button{font:inherit;font-size:.82rem;font-weight:600;padding:6px 12px;border-radius:99px;border:1px solid var(--hair-2);background:#fff;color:var(--body);cursor:pointer}.tc .vis button[aria-checked=true]{background:#101b18;color:#fff;border-color:#101b18}.tc .chartwrap{border-radius:14px;overflow:hidden;border:1px solid var(--hair-2)}.tc .chartwrap svg{display:block;width:100%;height:auto}.tc .booknote{margin:30px 0 0;padding:18px 20px;border-left:3px solid var(--teal);background:var(--panel);border-radius:0 12px 12px 0;font-size:.94rem;line-height:1.6}.tc .booknote b{color:#101b18}@media(max-width:720px){.tc .score{grid-template-columns:auto 1fr;padding:18px}.tc .ring{width:84px;height:84px}.tc .sc-act{grid-column:1 / -1;align-items:stretch}.tc .sc-hint{text-align:center}.tc .cv{grid-template-columns:1fr}.tc .fix-btns .dlbtn{flex:1 1 100%}.tc .ck{padding:12px 14px;gap:4px 10px}.tc .secnote{display:block;margin:2px 0 0}.tc .pal{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));padding:8px}}
+</style>
+<style>:root{--paper: #FFFFFF;--plate: #FFFFFF;--ink: #111827;--mid: #54635F;--faint: #8A9793;--hair: rgba(24, 50, 46, .1);--hair-2: rgba(24, 50, 46, .18);--teal: #0E9D8A;--teal-ink: #0B7A6C;--teal-wash: rgba(14, 157, 138, .07);--serif: "Fraunces", Georgia, serif;--sans: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;--mono: "IBM Plex Mono", ui-monospace, "Consolas", monospace}*{box-sizing:border-box}html,body{margin:0;padding:0}body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}.page{min-height:100vh}.shell{max-width:780px;margin:0 auto;min-height:100vh;padding:0 clamp(20px,5vw,32px);display:flex;flex-direction:column}main{flex:1}a{color:inherit}a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:2px}.topbar{display:flex;align-items:baseline;gap:16px 26px;flex-wrap:wrap;padding:30px 0 18px}.brand{font-weight:800;font-size:1.16rem;letter-spacing:-.035em;color:var(--ink);text-decoration:none}.nav{display:flex;gap:22px;margin-left:auto}.nav a{font-size:.93rem;color:var(--mid);text-decoration:none;padding:4px 0;position:relative}.nav a:hover{color:var(--ink)}.nav a.on{color:var(--ink);font-weight:600}.nav a.on:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--teal);border-radius:2px}.icons{display:flex;gap:14px}.icons a{color:var(--faint);line-height:0}.icons a:hover{color:var(--teal-ink)}.icons svg{width:17px;height:17px}@media(max-width:560px){.nav{margin-left:0;gap:8px 16px;flex-wrap:wrap}}.btn{font-size:.88rem;font-weight:600;text-decoration:none;border-radius:8px;padding:12px 20px;display:inline-flex;align-items:center;gap:9px;transition:transform .16s ease,background .16s ease,border-color .16s ease,color .16s ease}.btn.solid{background:#101b18;color:#fff;box-shadow:0 1px 2px #101b1829}.btn.solid:hover{transform:translateY(-1px);background:#1b2b27}.btn.line{border:1px solid var(--hair-2);color:var(--ink)}.btn.line:hover{border-color:var(--teal-ink);color:var(--teal-ink)}.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-ink);margin:0 0 18px}.eyebrow:before{content:"";width:24px;height:1px;background:var(--teal)}.sitefoot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:22px 0 clamp(34px,6vw,52px);margin-top:clamp(50px,8vw,80px);border-top:1px solid var(--hair);font-family:var(--mono);font-size:.72rem;color:var(--faint);letter-spacing:.02em}.sitefoot a{text-decoration:none;color:var(--faint)}.sitefoot a:hover{color:var(--teal-ink)}@media(prefers-reduced-motion:no-preference){.reveal{opacity:0;transform:translateY(10px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}.d1{animation-delay:.04s}.d2{animation-delay:.1s}.d3{animation-delay:.16s}.d4{animation-delay:.22s}@keyframes rise{to{opacity:1;transform:none}}}
+</style></head> <body> <div class="page"> <div class="shell"> <header class="topbar"> <a href="https://babarda.com/" class="brand">Badr Abardazzou</a> <nav class="nav" aria-label="Primary"> <a href="https://babarda.com/" class>Home</a><a href="https://babarda.com/library" class>Library</a><a href="https://babarda.com/museum" class>Museum</a><a href="https://babarda.com/projects" class>Projects</a><a href="https://babarda.com/tools" class="on">Tools</a><a href="https://babarda.com/templates" class>Templates</a><a href="https://babarda.com/papers" class>Papers</a><a href="https://babarda.com/about" class>About</a> </nav> <div class="icons"> <a href="https://www.linkedin.com/in/badr-abardazzou-4a460938/" aria-label="LinkedIn" target="_blank" rel="noopener"> <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.76-2.05 4.02 0 4.76 2.64 4.76 6.08V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.4-2.07 2.85V21h-4z"></path></svg> </a> <a href="https://github.com/babarda" aria-label="GitHub" target="_blank" rel="noopener"> <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49l-.01-1.7c-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.66.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9l-.01 2.82c0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"></path></svg> </a> </div> </header> <main>  <div class="pa tool bcg tc"> <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet"> <div class="head"> <p class="eyebrow"><a href="https://babarda.com/tools">Tools</a></p> <h1>Theme Check</h1> <p class="dek">Find out whether a report theme is readable, accessible and safe for colour-blind readers, and get a corrected version in one click. <a href="https://github.com/babarda/theme-kit">Source on GitHub</a> (MIT).</p> </div> <div class="drop" id="drop" role="button" tabindex="0" aria-label="Choose a theme file to check"> <p class="dl"><b>Drop a Power BI theme, a .thmx or a PowerPoint, Excel or Word file</b></p> <p class="dl2">or <button type="button" id="choose">choose a file</button>. Accepts .json, .thmx, .pptx, .potx, .xlsx, .xltx, .docx, .dotx</p> <p class="fn" id="fn"></p> <input type="file" accept=".json,.thmx,.pptx,.potx,.xlsx,.xltx,.xlsm,.docx,.dotx" hidden id="file"> </div> <div class="examples"> <span class="exk">No file at hand? Try an example:</span> <button type="button" class="exb" data-ex="good"><i style="background:linear-gradient(90deg,#1D5FA8 0 33%,#C86F00 33% 66%,#5A8BF0 66%)"></i>Harbour, a clean theme</button> <button type="button" class="exb" data-ex="bad"><i style="background:linear-gradient(90deg,#7FC97F 0 33%,#F4A6A6 33% 66%,#FDC086 66%)"></i>Summer Sale, a theme with problems</button> </div> <p class="dh">Your file stays in your browser. Nothing is uploaded, nothing is stored.</p> <div class="err" id="err" role="alert"></div> <div id="results" class="hidden" aria-live="polite"> <div class="score" id="score"> <div class="ring" id="ring"></div> <div class="sc-main"> <p class="sc-k" id="scSource"></p> <h2 class="sc-name" id="scName"></h2> <p class="sc-verdict" id="scVerdict"></p> <p class="sc-tally" id="scTally"></p> </div> <div class="sc-act"> <button type="button" class="dlbtn" id="fixBtn">Fix it for me</button> <span class="sc-hint">Builds a corrected theme you can download</span> </div> </div> <div class="fix hidden" id="fix"> <div class="fix-head"> <div class="fix-scores"><span class="fs" id="fsBefore"></span><span class="fa" aria-hidden="true">&rarr;</span><span class="fs after" id="fsAfter"></span></div> <div><b>The corrected theme</b><p id="fixLead">What changed, and why. Your brand hues stay wherever a lighter or darker version was enough.</p></div> </div> <div class="fix-strip" id="fixStrip"></div> <ul class="fix-list" id="fixList"></ul> <div class="fix-btns"> <button type="button" class="dlbtn" id="dlJson">Download Power BI theme (.json)</button> <button type="button" class="dlbtn line" id="dlThmx">Download Office theme (.thmx)</button> <a class="dlbtn line" id="openBuilder" href="index.html">Open in Theme Builder</a> <button type="button" class="linkbtn" id="viewFixed">Check the corrected theme</button> </div> </div> <h2 class="sec">The palette <span class="secnote">series colours in order, with their contrast on the background</span></h2> <div class="pal" id="pal"></div> <div class="roles" id="roles"></div> <h2 class="sec">The checks <span class="secnote">each with what it found and what to change</span></h2> <div class="checks" id="checks"></div> <h2 class="sec">As colour-blind readers see it <span class="secnote">&Delta;E is the CIEDE2000 distance: under 10 looks alike, under 5 looks identical</span></h2> <div class="cvd" id="cvd"></div> <h2 class="sec">On a chart <span class="secnote">your theme on a small report, switch the vision to compare</span></h2> <div class="vis" role="radiogroup" aria-label="Vision" id="vis"></div> <div class="chartwrap" id="chart"></div> </div> <div class="booknote"> <b>Why colour blindness is the check that matters most.</b> About 1 man in 12 and 1 woman in 200 have a colour-vision deficiency, almost always of the red-green kind (the deutan and protan types). In a room of 25 people reading your dashboard, expect one or two who cannot tell your green series from your red one. The tool simulates each deficiency with the Machado, Oliveira and Fernandes (2009) model and measures how far apart your colours stay with CIEDE2000, the colour-difference formula the print industry uses. Two series under &Delta;E 10 get confused in a legend; under 5 they look like one colour. It checks the first 8 series, the ones most charts actually reach.
+</div> <div class="booknote"> <b>The numbers behind each check.</b> Text follows WCAG 2.2: 4.5:1 for normal text (success criterion 1.4.3), 3:1 for large text, meaning 18 pt, or 14 pt bold. Chart marks (bars, lines, markers, legend keys) need 3:1 against their background (1.4.11, non-text contrast); a pastel on white sits around 1.5:1 and a thin line in that colour vanishes on a projector. A Power BI theme with fewer than 6 data colours repeats colour 1 on the next series; more than 12 is past what any reader can match to a legend. Good and bad are tested under red-green deficiency because KPI cards and conditional formatting lean on exactly that pair. Fonts are checked against the ones Windows, Office and the Power BI service ship with: a Google font in a theme looks right on the designer's PC and falls back to something else on everyone else's. Dark themes are detected from the background luminance, and the fixes lighten instead of darken.
+</div> <div class="booknote"> <b>What "Fix it for me" does.</b> It darkens (or, on a dark theme, lightens) text until it reaches 7:1 for main text and 4.5:1 for secondary text, steps each faint series colour along its own hue until it reaches 3:1, and pulls colliding series apart: first with a lighter or darker version of the same colour, and only if that is not enough with a hue from the Okabe and Ito colour-blind safe set. It removes repeats, adds colours up to 6, picks a good and bad pair that survives red-green colour blindness, swaps uninstalled fonts for Segoe UI, and fills every missing role. You get a Power BI theme and an Office theme. To adjust it by hand, open it in the <a href="index.html">Theme Builder</a>; for ready-made designs, see the <a href="https://babarda.com/templates/">templates</a>.
+</div> <div class="booknote"> <b>Privacy and what it reads.</b> The file never leaves your browser: the page unzips Office files and parses JSON locally, with no server behind it. From a Power BI theme it reads dataColors, background, foreground and the other root colours, textClasses and whether visualStyles exists. From an Office file (.thmx, or the theme inside a .pptx, .potx, .xlsx or .docx) it reads the 12 colour slots and the heading and body fonts. It reports a missing role as missing; it never grades a default the file did not set.
+</div> </div>  </main> <footer class="sitefoot"> <span>© 2026 Badr Abardazzou</span> <a href="https://babarda.com/about">About</a> </footer> </div> </div>  </body> </html>   <script type="module">
+import * as tk from "./themekit.js";
+import * as ck from "./check.js";
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+const r1 = (x) => (Math.floor(x * 10) / 10).toFixed(1);
+const inkOn = (bg) => (tk.contrast("#000000", bg) >= tk.contrast("#FFFFFF", bg) ? "#101B18" : "#FFFFFF");
+
+/* Two built-in Power BI themes: one clean, one with the usual problems. */
+const EXAMPLES = {
+  good: { name: "Harbour", dataColors: ["#1D5FA8", "#C86F00", "#5C4040", "#7F8790", "#5A8BF0", "#A8321E"],
+    background: "#FFFFFF", backgroundLight: "#F3F5F7", backgroundNeutral: "#C9D1D9", foreground: "#14212E", foregroundNeutralSecondary: "#4A5866", foregroundNeutralTertiary: "#A7B1BB",
+    tableAccent: "#1D5FA8", good: "#1F6FB2", bad: "#D2561B", neutral: "#8A8F96",
+    textClasses: { callout: { fontFace: "Segoe UI Semibold", color: "#14212E", fontSize: 28 }, title: { fontFace: "Segoe UI Semibold", color: "#14212E", fontSize: 14 }, header: { fontFace: "Segoe UI", color: "#14212E", fontSize: 12 }, label: { fontFace: "Segoe UI", color: "#4A5866", fontSize: 10 } },
+    visualStyles: { "*": { "*": { background: [{ color: { solid: { color: "#FFFFFF" } }, transparency: 0 }] } } } },
+  bad: { name: "Summer Sale", dataColors: ["#7FC97F", "#F4A6A6", "#FDC086", "#F4A6A6", "#BEAED4"],
+    background: "#FFFFFF", foreground: "#8C8C8C", good: "#4CAF50", bad: "#E53935",
+    textClasses: { title: { fontFace: "Montserrat", color: "#A0A0A0", fontSize: 14 }, label: { fontFace: "Montserrat", color: "#B5B5B5", fontSize: 9 } } },
+};
+
+let STATE = null;   // { name, brand, facts, audit, fixed, fromFix }
+let VISION = "normal";
+
+// ------------------------------------------------------------ loading
+
+async function loadFile(f) {
+  $("#err").textContent = "";
+  $("#fn").textContent = f.name + " · " + (f.size >= 1048576 ? (f.size / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(f.size / 1024)) + " KB");
+  try {
+    const res = await tk.brandFromFile(f);
+    $("#drop").classList.add("ok");
+    run(res, f.name);
+  } catch (e) {
+    $("#drop").classList.remove("ok");
+    $("#results").classList.add("hidden");
+    $("#err").textContent = /JSON/.test(e.message) ? "This .json is not valid JSON, so it cannot be a Power BI theme." : "Could not read this file: " + e.message + " Try a Power BI theme .json, a .thmx, or a .pptx, .xlsx or .docx.";
+  }
+}
+
+function loadExample(key, noScroll) {
+  const raw = JSON.parse(JSON.stringify(EXAMPLES[key]));
+  $("#fn").textContent = "Example: " + raw.name + " (Power BI theme)";
+  $("#drop").classList.remove("ok"); $("#err").textContent = "";
+  run({ brand: tk.parsePowerBiTheme(raw), source: "Power BI theme", raw }, raw.name + ".json", noScroll);
+}
+
+function run(res, fileName, noScroll) {
+  const facts = ck.inspect(res);
+  const brand = res.brand;
+  const audit = ck.audit(brand, facts);
+  const fixed = ck.fixBrand(brand, facts);
+  STATE = { fileName, brand, facts, audit, fixed, fromFix: false };
+  VISION = "normal";
+  $("#fix").classList.add("hidden");
+  $("#results").classList.remove("hidden");
+  render();
+  if (!noScroll) $("#results").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// ------------------------------------------------------------ render
+
+function ring(score, grade) {
+  const r = 44, c = 2 * Math.PI * r, col = score >= 80 ? "#8FE3D3" : score >= 65 ? "#F2C46B" : "#F08A7A";
+  return '<svg viewBox="0 0 104 104" width="100%" height="100%" role="img" aria-label="Score ' + score + ' out of 100, grade ' + grade + '">' +
+    '<circle cx="52" cy="52" r="' + r + '" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="9"/>' +
+    '<circle cx="52" cy="52" r="' + r + '" fill="none" stroke="' + col + '" stroke-width="9" stroke-linecap="round" stroke-dasharray="' + (c * score / 100).toFixed(1) + " " + c.toFixed(1) + '" transform="rotate(-90 52 52)"/>' +
+    '<text x="52" y="54" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="30" font-weight="600" fill="#fff">' + score + '</text>' +
+    '<text x="52" y="74" text-anchor="middle" font-family="Figtree, Segoe UI, sans-serif" font-size="11" font-weight="700" fill="' + col + '" letter-spacing="1">GRADE ' + grade + '</text></svg>';
+}
+
+const ICON = { pass: "✓", warn: "!", fail: "✕", na: "–", info: "i" };
+const TAG = { pass: "Pass", warn: "Warning", fail: "Fail", na: "Not applicable", info: "Note" };
+const KIND_NAME = { powerbi: "Power BI theme", office: "Office theme", brand: "Theme Builder brand file", fixed: "Corrected theme" };
+
+function render() {
+  const { audit: a, facts, brand } = STATE;
+  const b = a.brand;
+  $("#ring").innerHTML = ring(a.score, a.grade);
+  $("#scSource").textContent = (STATE.fromFix ? "Corrected theme" : KIND_NAME[facts.kind] || "Theme") + (facts.kind === "office" && facts.themePart ? " · " + facts.themePart : "") + " · " + (a.dark ? "dark" : "light") + " background";
+  $("#scName").textContent = b.name;
+  $("#scVerdict").textContent = a.verdict;
+  const cnt = (s) => a.checks.filter((c) => c.status === s).length;
+  $("#scTally").innerHTML = '<span><b>' + cnt("pass") + "</b> passed</span><span><b>" + cnt("warn") + "</b> warning" + (cnt("warn") === 1 ? "" : "s") + "</span><span><b>" + cnt("fail") + "</b> failed</span>" + (cnt("na") ? "<span><b>" + cnt("na") + "</b> not applicable</span>" : "");
+  $("#fixBtn").textContent = STATE.fromFix ? "Back to the original" : "Fix it for me";
+
+  // palette
+  const cs = a.colors, dupSet = new Set(cs.filter((c, i) => cs.indexOf(c) !== i));
+  $("#pal").style.background = b.background;
+  $("#pal").innerHTML = cs.map((c, i) => {
+    const r = tk.contrast(c, b.background);
+    return '<div class="sw' + (dupSet.has(c) ? " dup" : "") + '"><div class="chip" style="background:' + c + '"><em style="color:' + inkOn(c) + '">' + (i + 1) + "</em></div>" +
+      '<div class="meta"><b>' + c + '</b><span class="' + (r < 3 ? "lo" : "") + '">' + r1(r) + ":1" + (r < 3 ? " low" : "") + "</span>" + (dupSet.has(c) ? ' <span class="lo">repeat</span>' : "") + "</div></div>";
+  }).join("");
+
+  // roles: what the file set, and what it left out
+  const has = facts.has || {};
+  const roles = facts.kind === "office"
+    ? [["Background (lt1)", b.background, true], ["Panel (lt2)", b.panel, has.panel], ["Main text (dk1)", b.ink, true], ["Secondary text (dk2)", b.body, has.body],
+       ["Hyperlink", facts.slots && facts.slots.hlink, facts.slots && facts.slots.hlink && facts.slots.hlink !== "?"]]
+    : [["Background", b.background, facts.kind !== "powerbi" || has.background], ["Panel", b.panel, has.panel], ["Main text", b.ink, facts.kind !== "powerbi" || has.foreground], ["Secondary text", b.body, has.body],
+       ["Good", b.good, has.good], ["Bad", b.bad, has.bad], ["Neutral", b.neutral, facts.kind !== "powerbi" || has.neutral]];
+  const fonts = (facts.fonts || []).filter((f) => f.font);
+  $("#roles").innerHTML = roles.map(([k, c, ok]) => ok ? '<span class="role"><i style="background:' + c + '"></i>' + k + " <small>" + c + "</small></span>" : '<span class="role miss"><i></i>' + k + " <small>not set</small></span>").join("") +
+    [...new Set(fonts.map((f) => f.font))].map((f) => '<span class="role' + (ck.isSafeFont(f) ? "" : " miss") + '"><i style="background:#fff;border-color:transparent;font-size:.7rem;display:inline-flex;align-items:center;justify-content:center">Aa</i>' + esc(f) + (ck.isSafeFont(f) ? "" : " <small>not installed on most PCs</small>") + "</span>").join("");
+
+  // checks
+  $("#checks").innerHTML = a.checks.map((c) => {
+    let extra = "";
+    if (c.id === "text" && c.pairs) extra = '<div class="pairs">' + c.pairs.map((p) => '<span class="pair"><span class="s" style="background:' + p.bg + ";color:" + p.fg + '">Aa</span>' + esc(p.label) + ' <b class="' + (p.ratio < p.need ? "bad" : "") + '">' + r1(p.ratio) + ":1 " + p.grade + "</b></span>").join("") + "</div>";
+    return '<div class="ck ' + c.status + '"><span class="ic" aria-hidden="true">' + ICON[c.status] + '</span><div class="ck-t"><b>' + esc(c.title) + '</b><span class="tag">' + TAG[c.status] + "</span></div>" +
+      "<p>" + esc(cap(c.finding)) + "</p>" + (c.fix && c.fix !== "Nothing to do." ? '<p class="fx"><b>Fix:</b> ' + esc(c.fix) + "</p>" : "") + extra + "</div>";
+  }).join("");
+
+  // colour-blind strips
+  const scope = cs.slice(0, 8);
+  $("#cvd").innerHTML = ck.KINDS.map((k) => {
+    const p = a.pairsBy[k];
+    const st = !isFinite(p.d) ? "" : p.d < 5 ? "fail" : p.d < 10 ? "warn" : "pass";
+    return '<div class="cv"><div class="cv-l"><b>' + ck.KIND_LABEL[k] + "</b>" + (ck.KIND_NOTE[k] ? "<small>" + ck.KIND_NOTE[k] + "</small>" : "") +
+      (isFinite(p.d) ? '<span class="d ' + st + '">Closest: ' + (p.i + 1) + " and " + (p.j + 1) + ", ΔE " + p.d.toFixed(0) + "</span>" : "") + "</div>" +
+      '<div class="strip" role="img" aria-label="' + ck.KIND_LABEL[k] + ' view of the palette">' + scope.map((c, i) => { const s = k === "normal" ? c : tk.simulate(c, k); return '<span class="' + (st !== "pass" && (i === p.i || i === p.j) ? "hit" : "") + '" style="background:' + s + '" title="' + (i + 1) + ": " + c + " seen as " + s + '"><em style="color:' + inkOn(s) + '">' + (i + 1) + "</em></span>"; }).join("") + "</div></div>";
+  }).join("");
+
+  // vision toggle + chart
+  $("#vis").innerHTML = ck.KINDS.map((k) => '<button type="button" role="radio" aria-checked="' + (k === VISION) + '" data-k="' + k + '">' + ck.KIND_LABEL[k] + "</button>").join("");
+  drawChart();
+}
+
+function drawChart() {
+  const b = STATE.audit.brand, cs = STATE.audit.colors.slice(0, 6);
+  const v = (c) => (VISION === "normal" ? c : tk.simulate(c, VISION));
+  const W = Math.max(400, Math.min(720, $("#chart").clientWidth || 720)), H = 360, L = 44, T = 70, R = W < 520 ? 120 : 170, B = 44, pw = W - L - R, ph = H - T - B;
+  const cats = ["Q1", "Q2", "Q3", "Q4"];
+  const data = cats.map((_, q) => cs.map((_, s) => 30 + ((q * 37 + s * 53 + 11) % 60)));
+  const max = 100, gw = pw / cats.length, bw = Math.min(18, (gw - 16) / cs.length);
+  const hf = STATE.audit.brand.fontHeading, bf = STATE.audit.brand.fontBody;
+  const ff = (f) => esc('"' + f + '", "Segoe UI", system-ui, sans-serif');
+  let s = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Sample column chart in the theme colours, ' + ck.KIND_LABEL[VISION] + '">';
+  s += '<rect width="' + W + '" height="' + H + '" fill="' + v(b.background) + '"/>';
+  s += '<text x="' + L + '" y="30" font-family="' + ff(hf) + '" font-size="17" font-weight="600" fill="' + v(b.ink) + '">Sales by quarter and region</text>';
+  s += '<text x="' + L + '" y="50" font-family="' + ff(bf) + '" font-size="12" fill="' + v(b.body) + '">Thousand units, sample data in your theme</text>';
+  for (let g = 0; g <= 4; g++) {
+    const y = T + ph - (ph * g) / 4;
+    s += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + y + '" y2="' + y + '" stroke="' + v(b.gridline) + '" stroke-width="1"/>';
+    s += '<text x="' + (L - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-family="' + ff(bf) + '" font-size="11" fill="' + v(b.body) + '">' + g * 25 + "</text>";
+  }
+  cats.forEach((c, q) => {
+    const x0 = L + q * gw + (gw - bw * cs.length) / 2;
+    cs.forEach((col, i) => { const h = (ph * data[q][i]) / max; s += '<rect x="' + (x0 + i * bw + 1).toFixed(1) + '" y="' + (T + ph - h).toFixed(1) + '" width="' + (bw - 2).toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2" fill="' + v(col) + '"/>'; });
+    s += '<text x="' + (L + q * gw + gw / 2) + '" y="' + (T + ph + 20) + '" text-anchor="middle" font-family="' + ff(bf) + '" font-size="12" fill="' + v(b.body) + '">' + c + "</text>";
+  });
+  s += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + (T + ph) + '" y2="' + (T + ph) + '" stroke="' + v(b.hairline) + '"/>';
+  const regions = ["North", "South", "East", "West", "Central", "Export"];
+  cs.forEach((col, i) => {
+    const y = T + 6 + i * 22;
+    s += '<rect x="' + (W - R + 22) + '" y="' + (y - 9) + '" width="12" height="12" rx="2" fill="' + v(col) + '"/>';
+    s += '<text x="' + (W - R + 42) + '" y="' + (y + 1) + '" font-family="' + ff(bf) + '" font-size="12" fill="' + v(b.body) + '">' + regions[i] + "</text>";
+  });
+  // good and bad KPI
+  const ky = T + 6 + cs.length * 22 + 14;
+  const kx2 = W < 520 ? W - R + 22 : W - R + 92, ky2 = W < 520 ? ky + 40 : ky;
+  s += '<text x="' + (W - R + 22) + '" y="' + ky + '" font-family="' + ff(hf) + '" font-size="18" font-weight="600" fill="' + v(b.good) + '">▲ 12%</text>';
+  s += '<text x="' + (W - R + 22) + '" y="' + (ky + 16) + '" font-family="' + ff(bf) + '" font-size="10.5" fill="' + v(b.body) + '">good</text>';
+  s += '<text x="' + kx2 + '" y="' + ky2 + '" font-family="' + ff(hf) + '" font-size="18" font-weight="600" fill="' + v(b.bad) + '">▼ 8%</text>';
+  s += '<text x="' + kx2 + '" y="' + (ky2 + 16) + '" font-family="' + ff(bf) + '" font-size="10.5" fill="' + v(b.body) + '">bad</text>';
+  s += "</svg>";
+  $("#chart").innerHTML = s;
+  document.querySelectorAll("#vis button").forEach((btn) => btn.setAttribute("aria-checked", String(btn.dataset.k === VISION)));
+}
+
+// ------------------------------------------------------------ fix
+
+function showFix() {
+  const { fixed, audit } = STATE;
+  const kind = STATE.facts.kind === "office" ? "office" : "powerbi";
+  const after = ck.audit(fixed.brand, ck.fullFacts(fixed.brand, kind));
+  STATE.fixedAudit = after;
+  $("#fsBefore").innerHTML = audit.score + "<small>" + audit.grade + "</small>";
+  $("#fsAfter").innerHTML = after.score + "<small>" + after.grade + "</small>";
+  const bg = fixed.brand.background;
+  $("#fixStrip").style.background = bg;
+  $("#fixStrip").innerHTML = fixed.brand.colors.map((c, i) => '<span style="background:' + c + ";color:" + inkOn(c) + '">' + (i + 1) + " " + c + "</span>").join("");
+  $("#fixList").innerHTML = fixed.changes.map((t) => "<li>" + esc(t) + "</li>").join("");
+  const name = /fixed$/i.test(fixed.brand.name) ? fixed.brand.name : fixed.brand.name + " fixed";
+  const q = "colors=" + fixed.brand.colors.map((c) => c.slice(1)).join(",") + "&name=" + encodeURIComponent(name);
+  $("#openBuilder").href = "/tools/theme-builder/?" + q;
+  $("#fix").classList.remove("hidden");
+  $("#fix").scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function fixedBrandForDownload() {
+  const b = { ...STATE.fixed.brand };
+  if (!/fixed$/i.test(b.name)) b.name = b.name + " fixed";
+  return b;
+}
+
+// ------------------------------------------------------------ wiring
+
+const drop = $("#drop"), file = $("#file");
+drop.addEventListener("click", (e) => { if (e.target.tagName !== "BUTTON") file.click(); });
+drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); file.click(); } });
+$("#choose").addEventListener("click", (e) => { e.stopPropagation(); file.click(); });
+drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
+drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); const f = e.dataTransfer.files[0]; if (f) loadFile(f); });
+file.addEventListener("change", (e) => { const f = e.target.files[0]; if (f) loadFile(f); e.target.value = ""; });
+document.querySelectorAll(".exb").forEach((btn) => btn.addEventListener("click", () => loadExample(btn.dataset.ex)));
+$("#vis").addEventListener("click", (e) => { const k = e.target.closest("button") && e.target.closest("button").dataset.k; if (k) { VISION = k; drawChart(); } });
+
+$("#fixBtn").addEventListener("click", () => {
+  if (STATE.fromFix) { Object.assign(STATE, STATE.original, { fromFix: false }); render(); showFix(); return; }
+  showFix();
+});
+$("#viewFixed").addEventListener("click", () => {
+  if (STATE.fromFix) return;
+  const kind = STATE.facts.kind === "office" ? "office" : "powerbi";
+  STATE.original = { brand: STATE.brand, facts: STATE.facts, audit: STATE.audit };
+  const fb = STATE.fixed.brand;
+  Object.assign(STATE, { brand: fb, facts: { ...ck.fullFacts(fb, kind), kind: "fixed" }, audit: STATE.fixedAudit, fromFix: true });
+  render();
+  $("#results").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+let resizeT; window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(() => { if (STATE) drawChart(); }, 150); });
+{ const m = location.hash.match(/example=(good|bad)/); if (m) { loadExample(m[1], true); if (/fix/.test(location.hash)) showFix(); } }
+$("#dlJson").addEventListener("click", () => { const b = fixedBrandForDownload(); tk.download(tk.slug(b.name) + ".json", JSON.stringify(tk.powerbiTheme(b), null, 2) + "\n", "application/json"); });
+$("#dlThmx").addEventListener("click", () => { const b = fixedBrandForDownload(); tk.download(tk.slug(b.name) + ".thmx", tk.thmx(b), "application/vnd.ms-officetheme"); });
+</script>

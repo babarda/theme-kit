@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 250" width="960" height="250" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="960" height="250" rx="14" fill="#F4F8F7"/>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5E7C77"/></marker>
+  </defs>
+
+  <g transform="translate(30,30)">
+    <rect width="250" height="190" rx="12" fill="#fff" stroke="#D5E3E0"/>
+    <circle cx="28" cy="28" r="15" fill="#0F2A26"/><text x="28" y="33" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">1</text>
+    <text x="54" y="34" font-size="17" font-weight="700" fill="#0F2A26">Your brand colours</text>
+    <g transform="translate(20,58)">
+      <rect width="34" height="34" rx="6" fill="#1F4E79"/><rect x="42" width="34" height="34" rx="6" fill="#2E86C1"/><rect x="84" width="34" height="34" rx="6" fill="#F39C12"/><rect x="126" width="34" height="34" rx="6" fill="#27AE60"/><rect x="168" width="34" height="34" rx="6" fill="#C0392B"/>
+    </g>
+    <rect x="20" y="104" width="210" height="26" rx="5" fill="#F4F8F7" stroke="#D5E3E0"/>
+    <text x="30" y="122" font-size="12" fill="#5E7C77" font-family="Consolas, monospace">#1F4E79, #F39C12 ...</text>
+    <text x="20" y="168" font-size="12.5" fill="#3A4F4B">Paste hex codes, pick 1 of 16 looks,</text>
+    <text x="20" y="184" font-size="12.5" fill="#3A4F4B">or drop a theme or Office file</text>
+  </g>
+  <path d="M290 125H345" stroke="#5E7C77" stroke-width="2" marker-end="url(#a)"/>
+
+  <g transform="translate(355,30)">
+    <rect width="250" height="190" rx="12" fill="#fff" stroke="#D5E3E0"/>
+    <circle cx="28" cy="28" r="15" fill="#0F2A26"/><text x="28" y="33" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">2</text>
+    <text x="54" y="34" font-size="17" font-weight="700" fill="#0F2A26">Checked for readers</text>
+    <g font-size="12.5" fill="#0F2A26">
+      <rect x="20" y="54" width="44" height="20" rx="10" fill="#2E7D32"/><text x="42" y="68" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">PASS</text><text x="74" y="68">Text contrast 17.9:1</text>
+      <rect x="20" y="82" width="44" height="20" rx="10" fill="#F2A900"/><text x="42" y="96" text-anchor="middle" fill="#0F2A26" font-size="11" font-weight="700">CHECK</text><text x="74" y="96">2 and 5 alike, deutan</text>
+      <rect x="20" y="110" width="44" height="20" rx="10" fill="#C0392B"/><text x="42" y="124" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">FIX</text><text x="74" y="124">5 and 6 same grey</text>
+    </g>
+    <text x="20" y="168" font-size="12.5" fill="#3A4F4B">WCAG contrast, colour-blind safety,</text>
+    <text x="20" y="184" font-size="12.5" fill="#3A4F4B">greyscale print, one-click fix</text>
+  </g>
+  <path d="M615 125H670" stroke="#5E7C77" stroke-width="2" marker-end="url(#a)"/>
+
+  <g transform="translate(680,30)">
+    <rect width="250" height="190" rx="12" fill="#fff" stroke="#D5E3E0"/>
+    <circle cx="28" cy="28" r="15" fill="#0F2A26"/><text x="28" y="33" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">3</text>
+    <text x="54" y="34" font-size="17" font-weight="700" fill="#0F2A26">One zip, 8 tools</text>
+    <g font-size="11.5" font-weight="700" fill="#0F2A26" text-anchor="middle">
+      <rect x="20" y="54" width="100" height="24" rx="12" fill="#F2A900"/><text x="70" y="70">Power BI</text>
+      <rect x="130" y="54" width="100" height="24" rx="12" fill="#E8F1EF"/><text x="180" y="70">PowerPoint</text>
+      <rect x="20" y="84" width="100" height="24" rx="12" fill="#E8F1EF"/><text x="70" y="100">Excel, Word</text>
+      <rect x="130" y="84" width="100" height="24" rx="12" fill="#E8F1EF"/><text x="180" y="100">matplotlib</text>
+      <rect x="20" y="114" width="100" height="24" rx="12" fill="#E8F1EF"/><text x="70" y="130">plotly</text>
+      <rect x="130" y="114" width="100" height="24" rx="12" fill="#E8F1EF"/><text x="180" y="130">Vega-Lite, CSS</text>
+    </g>
+    <text x="20" y="168" font-size="12.5" fill="#3A4F4B">Each file with the exact clicks</text>
+    <text x="20" y="184" font-size="12.5" fill="#3A4F4B">to apply it</text>
+  </g>
+</svg>
